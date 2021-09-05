@@ -20,6 +20,12 @@
             <artifactId>javafx-fxml</artifactId>
             <version>15.0.1</version>
         </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>11.0.1</version>
+      </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -38,6 +44,27 @@
                 <configuration>
                     <mainClass>adventure.GameLaunch</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.5.0</version>
+              <configuration>
+                <mainClass>adventure.GameLaunch</mainClass>
+              </configuration>
+            </plugin>
+            <plugin>
+              <!-- Build an executable JAR -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>3.1.0</version>
+              <configuration>
+                <archive>
+                  <manifest>
+                    <mainClass>adventure.GameLaunch</mainClass>
+                  </manifest>
+                </archive>
+              </configuration>
             </plugin>
         </plugins>
     </build>

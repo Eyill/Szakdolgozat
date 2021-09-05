@@ -8,7 +8,7 @@ adventure\entity\Player.class
 adventure\controller\RunningGame.class
 adventure\common_files\CommonSceneController.class
 adventure\controller\Window.class
-adventure\App.class
+adventure\GameLaunch.class
 adventure\controller\CreateNewGame.class
 adventure\entity\Enemy.class
 adventure\common_files\Sprite.class

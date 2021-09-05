@@ -12,11 +12,6 @@
             <Image url="@../ui/user_bar.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="playerImage" fitHeight="26.0" fitWidth="31.0" layoutX="82.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../entities/1.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="47.0" fitWidth="624.0" layoutX="38.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../ui/tool_bar.png" />

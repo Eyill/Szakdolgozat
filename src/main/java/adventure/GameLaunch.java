@@ -6,13 +6,13 @@ import javafx.stage.Stage;
 
 public class GameLaunch extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Window gameWindow = new Window();
-        gameWindow.start(primaryStage);
-    }
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    Window gameWindow = new Window();
+    gameWindow.start(primaryStage);
+  }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 }

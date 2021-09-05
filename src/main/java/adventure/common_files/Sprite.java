@@ -1,181 +1,166 @@
 package adventure.common_files;
 
 import java.io.*;
+
+import adventure.entity.Enemy;
+import adventure.entity.Player;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import java.io.FileInputStream;
 
-public class Sprite {
+public class Sprite extends ImageView {
 
-  private Image spriteImage;
-  private String entityName;
-  private int height;
-  private int width;
-  private int positionX;
-  private int positionY;
+  private IntegerProperty lvl = new SimpleIntegerProperty(this,"lvl");
+  private IntegerProperty totalHealth = new SimpleIntegerProperty(this,"totalHealth");;
+  private IntegerProperty currentHealth = new SimpleIntegerProperty(this,"currentHealth");
+  private IntegerProperty defense = new SimpleIntegerProperty(this,"defense");
+  private IntegerProperty damage = new SimpleIntegerProperty(this,"damage");
+  private IntegerProperty criticalDamage = new SimpleIntegerProperty(this,"criticalDamage");
 
-  private int lvl;
-  private int totalHealth;
-  private int currentHealth;
-  private int defense;
-  private int damage;
-  private int criticalDamage;
   private boolean isAttacking = false;
   private boolean alive = true;
 
   public Sprite(
           String imagePath,
-          String entityName,
-          int height,
-          int width,
-          int positionX,
-          int positionY,
-          int lvl,
-          int totalHealth,
-          int currentHealth,
-          int defense,
-          int damage,
-          int criticalDamage
+          int level,
+          int maxHealth,
+          int def,
+          int dam,
+          int crit
   ) {
-    this.height = height;
-    this.width = width;
-    this.positionX = positionX;
-    this.positionY = positionY;
-    this.lvl = lvl;
-    this.totalHealth = totalHealth;
-    this.currentHealth = totalHealth;
-    this.defense = defense;
-    this.damage = damage;
-    this.criticalDamage = criticalDamage;
-
-    try {
-      this.spriteImage = new Image(getClass().getResource(imagePath).toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    super(new Image(imagePath,30,30,false, false));
+    lvl.set(level);
+    totalHealth.set(maxHealth);
+    currentHealth.set(totalHealth.get());
+    defense.set(def);
+    damage.set(dam);
+    criticalDamage.set(crit);
   }
 
   public int getLvl() {
+    return lvl.get();
+  }
+
+  public IntegerProperty lvlProperty() {
     return lvl;
   }
 
   public void setLvl(int lvl) {
-    this.lvl = lvl;
+    this.lvl.set(lvl);
   }
 
   public int getTotalHealth() {
-    return this.totalHealth;
+    return totalHealth.get();
   }
 
-  public void setTotalHealth(int health) {
-    this.totalHealth = health;
+  public IntegerProperty totalHealthProperty() {
+    return totalHealth;
+  }
+
+  public void setTotalHealth(int totalHealth) {
+    this.totalHealth.set(totalHealth);
   }
 
   public int getCurrentHealth() {
-    return this.currentHealth;
+    return currentHealth.get();
+  }
+
+  public IntegerProperty currentHealthProperty() {
+    return currentHealth;
   }
 
   public void setCurrentHealth(int currentHealth) {
-    this.currentHealth = currentHealth;
+    this.currentHealth.set(currentHealth);
   }
 
   public int getDefense() {
+    return defense.get();
+  }
+
+  public IntegerProperty defenseProperty() {
     return defense;
   }
 
-  public int getPositionX() {
-    return positionX;
-  }
-
-  public void setPositionX(int positionX) {
-    this.positionX = positionX;
-  }
-
-  public int getPositionY() {
-    return positionY;
-  }
-
-  public void setPositionY(int positionY) {
-    this.positionY = positionY;
+  public void setDefense(int defense) {
+    this.defense.set(defense);
   }
 
   public int getDamage() {
+    return damage.get();
+  }
+
+  public IntegerProperty damageProperty() {
     return damage;
   }
 
+  public void setDamage(int damage) {
+    this.damage.set(damage);
+  }
+
   public int getCriticalDamage() {
+    return criticalDamage.get();
+  }
+
+  public IntegerProperty criticalDamageProperty() {
     return criticalDamage;
+  }
+
+  public void setCriticalDamage(int criticalDamage) {
+    this.criticalDamage.set(criticalDamage);
+  }
+
+  public boolean isAttacking() {
+    return isAttacking;
+  }
+
+  public void setAttacking(boolean attacking) {
+    isAttacking = attacking;
+  }
+
+  public boolean isAlive() {
+    return alive;
+  }
+
+  public void setAlive(boolean alive) {
+    this.alive = alive;
   }
 
   public boolean getIsAttacking() {
     return this.isAttacking;
   }
 
-  public void setIsAttackcing(boolean attack) {
+  public void setIsAttacking(boolean attack) {
     this.isAttacking = attack;
   }
 
-  public Image getSpriteImage() {
-    return this.spriteImage;
-  }
-
-  public void setSpriteImage(String imagePath) {
-    this.spriteImage = new Image(getClass().getResource(imagePath).toString());
-  }
-
-  public void moveUp() {
-    if (this.getPositionY() - 5 >= -65) {
-      this.positionY -= 5;
-    }
-  }
-
-  public void moveDown() {
-    if (this.getPositionY() + 5 < 230) {
-      this.positionY += 5;
-    }
-  }
-
-  public void moveLeft() {
-    if (this.getPositionX() - 5 >= -50) {
-      this.positionX -= 5;
-    }
-  }
-
-  public void moveRight() {
-    if (this.getPositionX() + 5 < 575) {
-      this.positionX += 5;
-    }
-  }
 
   public void spriteDeath() {
     this.alive = false;
-    this.spriteImage = null;
+    this.setImage(null);
   }
 
   public void startAttacking(){
     //sprite attack animation
-    this.setIsAttackcing(true);
+    this.setIsAttacking(true);
   }
 
   public void stopAttacking(String imagePath){
-    this.setSpriteImage(imagePath);
-    this.setIsAttackcing(false);
+    this.setImage(new Image(imagePath));
+    this.setIsAttacking(false);
   }
 
-  public void handleKeys(KeyEvent event) {
-    switch (event.getCode()){
-      case W:
-        this.moveUp();
-        break;
-      case S:
-        this.moveDown();
-        break;
-      case A:
-        this.moveLeft();
-        break;
-      case D:
-        this.moveRight();
-        break;
-    }
+  public boolean isColliding(Player player, Enemy enemy){
+    int sumOfRadius = player.getRadius() + enemy.getRadius();
+    return sumOfRadius > getDistance(player,enemy);
   }
+
+  public double getDistance(Player player, Enemy enemy){
+    double a = (player.getLayoutX() - enemy.getLayoutX());
+    double b = (player.getLayoutY() - enemy.getLayoutY());
+    return Math.sqrt(a * a + b * b);
+  }
+
 }

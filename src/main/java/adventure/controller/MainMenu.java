@@ -5,16 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class MainMenu extends CommonMenu {
-
-  @FXML
-  private ResourceBundle resources;
-
-  @FXML
-  private URL location;
 
   @FXML
   private Button newGameButton;
@@ -30,20 +21,24 @@ public class MainMenu extends CommonMenu {
 
   @FXML
   void initialize() {
-
     animateButtons(newGameButton);
     animateButtons(loadGameButton);
     animateButtons(optionsButton);
     animateButtons(exitButton);
+
+    newGameButton.setOnAction(e -> {
+      changeWindow(newGameButton, "/adventure/fxml_files/create_new_game.fxml");
+    });
+
+    loadGameButton.setOnAction(e->{
+      changeWindow(loadGameButton,"/adventure/fxml_files/load_game.fxml");
+    });
 
     exitButton.setOnAction(event -> {
       Stage stage = (Stage) exitButton.getScene().getWindow();
       stage.close();
     });
 
-    newGameButton.setOnAction(e -> {
-      changeWindow(newGameButton, "/adventure/fxml_files/create_new_game.fxml");
-    });
   }
 
 }
