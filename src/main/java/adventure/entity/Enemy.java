@@ -1,10 +1,12 @@
 package adventure.entity;
 
 import adventure.common_files.Sprite;
+import adventure.misc.UserDataHandler;
 import adventure.misc.Vector;
 import java.util.List;
 
 public class Enemy extends Sprite {
+  private int id;
   private int experienceDrop;
   private final int radius  = 22;
   private final int followRadius = 100;
@@ -40,7 +42,7 @@ public class Enemy extends Sprite {
           int criticalDamage,
           int experienceDrop
   ) {
-    super(imagePath, lvl, health, defense, damage, criticalDamage);
+    super(UserDataHandler.class.getResource(imagePath).toString(), lvl, health, health,defense, damage, criticalDamage);
     this.experienceDrop = experienceDrop;
   }
 
@@ -48,10 +50,10 @@ public class Enemy extends Sprite {
     return experienceDrop;
   }
 
-  // if player is nearby then start attacking (while player is alive), make a previous check
-  // if player attacks absorbe some damage (use defense)
-  // with some percentage use critical damage
-  // if player health is 0 then stop attacking -> Game Over for the Player
+  public int getRadius() {
+    return radius;
+  }
+
   public void attackPlayer(Player player){
     if(isColliding(player,this)){
       setIsAttacking(true);
@@ -111,7 +113,4 @@ public class Enemy extends Sprite {
     return 0;
   }
 
-  public int getRadius() {
-    return radius;
-  }
 }

@@ -1,11 +1,11 @@
 package adventure.common_files;
 
 import java.io.*;
-
 import adventure.entity.Enemy;
 import adventure.entity.Player;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,22 +19,24 @@ public class Sprite extends ImageView {
   private IntegerProperty defense = new SimpleIntegerProperty(this,"defense");
   private IntegerProperty damage = new SimpleIntegerProperty(this,"damage");
   private IntegerProperty criticalDamage = new SimpleIntegerProperty(this,"criticalDamage");
+  private StringProperty imagePath = new SimpleStringProperty(this,"imagePath");
 
   private boolean isAttacking = false;
   private boolean alive = true;
 
   public Sprite(
-          String imagePath,
+          String image,
           int level,
           int maxHealth,
+          int current_health,
           int def,
           int dam,
           int crit
   ) {
-    super(new Image(imagePath,30,30,false, false));
+    super(new Image(image,30,30,false, false));
     lvl.set(level);
     totalHealth.set(maxHealth);
-    currentHealth.set(totalHealth.get());
+    currentHealth.set(current_health);
     defense.set(def);
     damage.set(dam);
     criticalDamage.set(crit);
@@ -96,6 +98,18 @@ public class Sprite extends ImageView {
     return damage;
   }
 
+  public String getImagePath() {
+    return imagePath.get();
+  }
+
+  public StringProperty imagePathProperty() {
+    return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath.set(imagePath);
+  }
+
   public void setDamage(int damage) {
     this.damage.set(damage);
   }
@@ -135,7 +149,6 @@ public class Sprite extends ImageView {
   public void setIsAttacking(boolean attack) {
     this.isAttacking = attack;
   }
-
 
   public void spriteDeath() {
     this.alive = false;

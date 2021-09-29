@@ -16,9 +16,17 @@ public class LoadGame extends CommonMenu {
   @FXML
   void initialize(){
     animateButtons(returnButton);
-
+    // TODO: load save options from db
     for (int i=0; i<10; i++){
       gameWindow.getChildren().add(new Button("test")) ;
+      // selected box with id -> UserDataHandler.loadGame(int id)
+      //  GamePanel gamePanel = new GamePanel();
+      //      try {
+      //        gamePanel.start((Stage)continueButton.getScene().getWindow());
+      //      } catch (Exception exception) {
+      //        exception.printStackTrace();
+      //      }
+      //    });
     }
 
     returnButton.setOnAction(e -> {

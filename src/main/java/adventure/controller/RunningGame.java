@@ -2,6 +2,7 @@ package adventure.controller;
 
 import adventure.entity.Enemy;
 import adventure.entity.Player;
+import adventure.misc.GameMap;
 import adventure.misc.UserDataHandler;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+
+import java.util.List;
 
 public class RunningGame {
 
@@ -30,31 +33,52 @@ public class RunningGame {
 
   private Player player;
 
-  private Enemy enemy;
+  private GameMap gameMap;
+
+  private List<Enemy> enemy;
+
   @FXML
   public void initialize(){
     player = UserDataHandler.player;
-    enemy = UserDataHandler.enemy;
+    enemy = UserDataHandler.gameMap.enemy;
 
     setBackgroundImage(gameWindow, "/adventure/fxml_files/game_maps/map1.png");
     gameWindow.requestFocus();
     gameWindow.getChildren().add(player);
-    gameWindow.getChildren().add(enemy);
 
-    enemy.setLayoutX(100);    // later: get data from db
-    enemy.setLayoutY(100);    // later: get data from db
+    for (Enemy e: enemy) {
+      int x = 50;
+      gameWindow.getChildren().add(e);
+      e.setLayoutY(x);
+      e.setLayoutY(x);
+    }
+
     player.setLayoutY(50);    // later: get data from db
 
     gameWindow.addEventFilter(KeyEvent.KEY_PRESSED, event->{
       if (event.getCode() == KeyCode.SPACE) {
-        player.attack(enemy);
-        System.out.println("ATTACK"); //call player's attack method
-        System.out.println("Enemy life: " + enemy.getCurrentHealth());
+        for (Enemy e: enemy) {
+          player.attack(e);
+          System.out.println(e.getCurrentHealth());
+        }
       }
     });
 
+    new AnimationTimer() {
+      @Override
+      public void handle(long now) {
+        player.setLayoutX(player.getLayoutX());
+        player.setLayoutY(player.getLayoutY());
+        UserDataHandler.checkEnemyLife();
+
+        for (Enemy e: enemy) {
+          e.movementHandler(player);
+        }
+      }
+    }.start();
+
     questButton.setFocusTraversable(false);
-    player.setFocusTraversable(false);
+    playerButton.setFocusTraversable(false);
     backpackButton.setFocusTraversable(false);
     menuButton.setFocusTraversable(false);
 
@@ -62,15 +86,6 @@ public class RunningGame {
     playerButton.setOnAction(e->{System.out.println("Player button clicked!");});
     backpackButton.setOnAction(e->{System.out.println("Backpack button clicked!");});
     menuButton.setOnAction(e->{System.out.println("Menu button clicked!");});
-
-    new AnimationTimer() {
-      @Override
-      public void handle(long now) {
-        player.setLayoutX(player.getLayoutX());
-        player.setLayoutY(player.getLayoutY());
-        enemy.movementHandler(player);
-      }
-    }.start();
   }
 
   public void setBackgroundImage(AnchorPane anchorPane, String resourceLocation) {

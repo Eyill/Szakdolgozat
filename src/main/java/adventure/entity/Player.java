@@ -1,19 +1,18 @@
 package adventure.entity;
 
 import adventure.common_files.Sprite;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
+import adventure.misc.Item;
+import adventure.misc.Quest;
+import adventure.misc.UserDataHandler;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
 public class Player extends Sprite {
-  public IntegerProperty id;
-  public StringProperty playerName;
+  public IntegerProperty playerId = new SimpleIntegerProperty(this,"id");
+  public StringProperty playerName = new SimpleStringProperty(this,"playerName");
   public ObjectProperty<ObservableList<Item>> items[];    // change it to items type
   public ObjectProperty<ObservableList<Quest>> quests[];   // Change it to quest type
   private IntegerProperty experienceToLvLUp = new SimpleIntegerProperty(this,"experienceToLvLUp");
@@ -24,7 +23,8 @@ public class Player extends Sprite {
    *
    * @param String imagePath
    * @param int lvl
-   * @param int (current)health
+   * @param int health
+   * @param int currenthealth
    * @param int defense
    * @param int damage
    * @param int criticalDamage
@@ -32,24 +32,22 @@ public class Player extends Sprite {
    */
 
   public Player(
-          String imagePath,
+          String path,
+          int lvl,
           int health,
+          int current_health,
           int defense,
           int damage,
           int criticalDamage,
           int requiredExperience,
-          int currentExperience
+          int currentExperience,
+          String name
   ){
-    super(imagePath, 1, health, defense, damage, criticalDamage);
+    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage);
     experienceToLvLUp.set(requiredExperience);
     experience.set(currentExperience);
-  }
-
-  public void lvlUp(int newRequiredExperience) {
-    if (experience.get() >= experienceToLvLUp.get()){
-      this.setLvl(this.getLvl() + 1);
-      experienceToLvLUp.set(experienceToLvLUp.get() + newRequiredExperience);
-    }
+    playerName.set(name);
+    setImagePath(path);
   }
 
   public int getExperienceToLvLUp() {
@@ -80,8 +78,36 @@ public class Player extends Sprite {
     return radius;
   }
 
+  public String getPlayerName() {
+    return playerName.get();
+  }
+
+  public StringProperty playerNameProperty() {
+    return playerName;
+  }
+
+  public void setPlayerName(String playerName) {
+    this.playerName.set(playerName);
+  }
+
+  public int getPlayerId() {
+    return playerId.get();
+  }
+
+  public IntegerProperty playerIdProperty() {
+    return playerId;
+  }
+
+  public void setPlayerId(int playerId) {
+    this.playerId.set(playerId);
+  }
+
   public void attack(Enemy enemy){
-    if(isColliding(this,enemy) && enemy != null) {
+    if (enemy == null){
+      return;
+    }
+
+    if(isColliding(this,enemy) ) {
       setIsAttacking(true);
       enemy.setCurrentHealth(enemy.getCurrentHealth() - getDamage());
     }
@@ -100,6 +126,13 @@ public class Player extends Sprite {
   public void heal(){
     while(this.getCurrentHealth() < this.getTotalHealth() && !this.getIsAttacking()){
       this.setCurrentHealth(this.getCurrentHealth() + 2);
+    }
+  }
+
+  public void lvlUp(int newRequiredExperience) {
+    if (experience.get() >= experienceToLvLUp.get()){
+      this.setLvl(this.getLvl() + 1);
+      experienceToLvLUp.set(experienceToLvLUp.get() + newRequiredExperience);
     }
   }
 
