@@ -1,8 +1,6 @@
 package adventure.entity;
 
 import adventure.common_files.Sprite;
-import adventure.misc.Item;
-import adventure.misc.Quest;
 import adventure.misc.UserDataHandler;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;

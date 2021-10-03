@@ -25,7 +25,6 @@ public class CreateNewGame extends CommonMenu {
 
     continueButton.setOnAction(e -> {
       UserDataHandler.createNewGame(playerName.getText());
-
       GamePanel gamePanel = new GamePanel();
       try {
         gamePanel.start((Stage)continueButton.getScene().getWindow());

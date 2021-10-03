@@ -12,6 +12,7 @@ public class Enemy extends Sprite {
   private final int followRadius = 100;
   private final float speed = 0.01f;
   private int pathPointer = 0;
+  private int gold = 0;
   private final List<Vector> path = List.of(
           new Vector(100, 100),
           new Vector(600, 100),
@@ -52,6 +53,10 @@ public class Enemy extends Sprite {
 
   public int getRadius() {
     return radius;
+  }
+
+  public int getGold() {
+    return gold;
   }
 
   public void attackPlayer(Player player){

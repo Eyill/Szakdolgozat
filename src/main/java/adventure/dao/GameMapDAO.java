@@ -1,7 +1,6 @@
 package adventure.dao;
 
 import adventure.common_files.configuration.Configuration;
-import adventure.misc.GameMap;
 import adventure.misc.UserDataHandler;
 
 import java.sql.*;
@@ -23,8 +22,7 @@ public class GameMapDAO {
       ResultSet rs = stmt.executeQuery();
 
       if (rs != null) {
-        UserDataHandler.gameplayId = id;
-        UserDataHandler.player = (new PlayerDAOImpl()).findById(rs.getInt("player_id"));
+
         //TODO : backpack_id,"quest_package_id, "current_map_id,
       }
 

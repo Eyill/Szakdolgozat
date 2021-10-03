@@ -61,19 +61,19 @@ public class GamePlayDAO {
     return false;
   }
 
-  public boolean createGamePlay(int playerId, int currentMapId){
+  public int createGamePlay(int playerId, int currentMapId){
     try(Connection c = DriverManager.getConnection(CONNECTION_URL);
         PreparedStatement stmt = c.prepareStatement(CREATE_gameplay)
     ){
       stmt.setInt(2,playerId);
       stmt.setInt(5,currentMapId);
 
-      int res = stmt.executeUpdate();
-      return res == 1;
+      return stmt.getGeneratedKeys().getInt(1);
+
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return false;
+    return -1;
   }
 
   public boolean delete(int id){

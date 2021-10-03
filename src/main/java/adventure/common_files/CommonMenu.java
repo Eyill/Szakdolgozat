@@ -38,14 +38,15 @@ public abstract class CommonMenu {
    */
   public void changeWindow(Button button, String resourceLocation) {
     Stage stage = (Stage) button.getScene().getWindow();
-
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getResource(resourceLocation));
+
     try {
       loader.load();
     } catch (IOException error) {
       error.printStackTrace();
     }
+
     Parent root = loader.getRoot();
     Image image = new Image(getClass().getResource("/adventure/ui/game_cursor.png").toString());
     Scene scene = new Scene(root,700, 400);

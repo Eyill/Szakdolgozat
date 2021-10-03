@@ -1,7 +1,7 @@
 package adventure.misc;
 import adventure.dao.GamePlayDAO;
 import adventure.dao.PlayerDAOImpl;
-import adventure.entity.Enemy;
+import adventure.entity.GameMap;
 import adventure.entity.Player;
 
 public class UserDataHandler {
@@ -11,29 +11,27 @@ public class UserDataHandler {
 
   public static PlayerDAOImpl playerDAOImp = new PlayerDAOImpl();
   public static GamePlayDAO gamePlayDAO = new GamePlayDAO();
+  public static TileManager tileManager = new TileManager();
 
   public static void loadPlayer(int id){
     player = playerDAOImp.findById(id);
-    //player = new Player("/adventure/entities/player/player.gif",100, 10,10 , 6, 0, 0, 0,0);
   }
 
   public static void savePlayer(Player player){
     playerDAOImp.save(player);
   }
 
-  public static void loadGameMap(){
+  public static void loadGameMap(int id){
   }
 
-  public static void loadGame(){
+  public static void loadGame(int id){
+    gamePlayDAO.findById(id);
   }
 
   public static void createNewGame(String playerName){
-    // TODO: create game entity in db
-    // TODO: initialize GameMap entity
-    // TODO: load enemy and game map
-    player = new Player("/adventure/entities/player/player.gif",100, 10,10 , 6, 10, 0, 0,0,playerName);
+    player = new Player("/adventure/entities/player/player.gif",1, 10,10 , 6, 10, 0, 40,0,playerName);
     playerDAOImp.createPlayer(player);
-    gamePlayDAO.createGamePlay(player.getPlayerId(),1);
+    gameplayId = gamePlayDAO.createGamePlay(player.getPlayerId(),1);
     gameMap = new GameMap();
     gameMap.loadEnemyList();
   }

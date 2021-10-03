@@ -2,7 +2,7 @@ package adventure.controller;
 
 import adventure.entity.Enemy;
 import adventure.entity.Player;
-import adventure.misc.GameMap;
+import adventure.entity.GameMap;
 import adventure.misc.UserDataHandler;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -42,7 +42,7 @@ public class RunningGame {
     player = UserDataHandler.player;
     enemy = UserDataHandler.gameMap.enemy;
 
-    setBackgroundImage(gameWindow, "/adventure/fxml_files/game_maps/map1.png");
+    setBackgroundImage(gameWindow, "/adventure/game_maps/map1.png");
     gameWindow.requestFocus();
     gameWindow.getChildren().add(player);
 
