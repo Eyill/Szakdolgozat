@@ -26,7 +26,19 @@ public enum Block {
   WALL11(59, "/adventure/tiles/wall/wall_bottom_inner_left.png", true),
   WALL12(65,"/adventure/tiles/wall/wall_top_inner_right_2.png",true),
   WALL13(66,"/adventure/tiles/wall/wall_top_1.png",true),
-  WALL14(69,"/adventure/tiles/wall/wall_top_inner_left_2.png",true);
+  WALL14(69,"/adventure/tiles/wall/wall_top_inner_left_2.png",true),
+  WALL15(62,"/adventure/tiles/wall/wall_arch_left.png",false),
+  WALL16(63,"/adventure/tiles/wall/wall_arch_right.png",false),
+
+  DECOR1(15,"/adventure/tiles/decoration/table.png",true),
+  DECOR2(2,"/adventure/tiles/decoration/barrel.png",true),
+  DECOR3(5,"/adventure/tiles/decoration/flag_red.png",true),
+  DECOR4(4,"/adventure/tiles/decoration/flag_green.png",true),
+  DECOR5(3,"/adventure/tiles/decoration/bookshelf.png",true),
+  DECOR6(14,"/adventure/tiles/decoration/prisoner.png",true),
+  DECOR7(163,"/adventure/tiles/decoration/torch_anim_f0.png",true),
+  DECOR8(10,"/adventure/tiles/decoration/table_2_left.png",true),
+  DECOR9(11,"/adventure/tiles/decoration/table_2_right.png",true);
 
   public int id;
   public String path;

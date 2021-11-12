@@ -1,33 +1,47 @@
 package adventure.controller;
 
 import adventure.common_files.CommonMenu;
+import adventure.misc.UserDataHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class LoadGame extends CommonMenu {
+  @FXML
+  private AnchorPane gameWindow;
 
   @FXML
   private Button returnButton;
 
   @FXML
-  private AnchorPane gameWindow;
+  private ListView<String> gameSaves = new ListView<String>();
 
   @FXML
-  void initialize(){
+  void initialize() {
     animateButtons(returnButton);
-    // TODO: load save options from db
-    for (int i=0; i<10; i++){
-      gameWindow.getChildren().add(new Button("test")) ;
-      // selected box with id -> UserDataHandler.loadGame(int id)
-      //  GamePanel gamePanel = new GamePanel();
-      //      try {
-      //        gamePanel.start((Stage)continueButton.getScene().getWindow());
-      //      } catch (Exception exception) {
-      //        exception.printStackTrace();
-      //      }
-      //    });
-    }
+
+    ObservableList<String> items = FXCollections.observableArrayList(UserDataHandler.gamePlayDAO.findAllGameSaves());
+    gameSaves.setItems(items);
+
+    gameSaves.setOnMouseClicked(click -> {
+      if (gameSaves.getSelectionModel().getSelectedItem() != null && click.getClickCount() == 2) {
+        String currentItemSelected = gameSaves.getSelectionModel().getSelectedItem();
+        int gamePlayId = Integer.parseInt(currentItemSelected.substring(0, currentItemSelected.indexOf(" ")));
+
+        UserDataHandler.loadGame(gamePlayId);
+        GamePanel gamePanel = new GamePanel();
+
+        try {
+          gamePanel.start((Stage) returnButton.getScene().getWindow());
+        } catch (Exception exception) {
+          exception.printStackTrace();
+        }
+      }
+    });
 
     returnButton.setOnAction(e -> {
       changeWindow(returnButton, "/adventure/fxml_files/main_menu.fxml");

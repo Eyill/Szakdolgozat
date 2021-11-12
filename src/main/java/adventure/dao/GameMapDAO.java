@@ -1,6 +1,7 @@
 package adventure.dao;
 
 import adventure.common_files.configuration.Configuration;
+import adventure.entity.GameMap;
 import adventure.misc.UserDataHandler;
 
 import java.sql.*;
@@ -14,7 +15,7 @@ public class GameMapDAO {
     CONNECTION_URL = Configuration.getProperty("db.url");
   }
 
-  public void findById(int id) {
+  public GameMap findById(int id) {
     try(Connection c = DriverManager.getConnection(CONNECTION_URL);
         PreparedStatement stmt = c.prepareStatement(SELECT_gameplay);
     ){
@@ -22,13 +23,17 @@ public class GameMapDAO {
       ResultSet rs = stmt.executeQuery();
 
       if (rs != null) {
+        GameMap gameMap = new GameMap();
+        gameMap.setMapId(id);
+        gameMap.setMapPath(rs.getString("map_path"));
 
-        //TODO : backpack_id,"quest_package_id, "current_map_id,
+        return gameMap;
       }
 
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
-  }
 
+    return null;
+  }
 }

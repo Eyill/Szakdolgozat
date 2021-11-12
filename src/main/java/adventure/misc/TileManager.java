@@ -13,16 +13,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TileManager {
+  public static Block[][] gameMap = new Block[25][44];
 
-  public Canvas loadGameMap(String path) {
+  public Canvas loadGameMap(String fileName) {
     final Canvas canvas = new Canvas();
-    List<Block> gameMap = new ArrayList<>();
 
     GraphicsContext gc1 = canvas.getGraphicsContext2D();
     canvas.setHeight(400);
@@ -31,7 +30,7 @@ public class TileManager {
     try {
       DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder builder = builderFactory.newDocumentBuilder();
-      Document doc = builder.parse(getClass().getResource(path).toString());
+      Document doc = builder.parse(getClass().getResource("/adventure/game_maps/" + fileName).toString());
       doc.getDocumentElement().normalize();
 
       NodeList list = doc.getElementsByTagName("layer");
@@ -55,24 +54,27 @@ public class TileManager {
     List<Integer> integerList =
             Arrays.stream(tempList.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
     for (int i : integerList) {
-        //gameMap.add(Block.fromId(i));
-        Block block = Block.fromId(i);
+      Block block = Block.fromId(i);
 
-        if (block != null) {
-          Image image = new Image(getClass().getResource(
-                  block.path).toString(),
-                  16,
-                  16,
-                  false,
-                  false
-          );
-          gc1.drawImage(image, x * 16, y * 16, 16, 16);
-        }
-        x++;
-        if (x % 44 == 0) {
-          y++;
-          x = 0;
-        }
+      if (block != null) {
+        Image image =
+                new Image(getClass().getResource(block.path).toString(),
+                        16,
+                        16,
+                        false,
+                        false
+                );
+        gc1.drawImage(image, x * 16, y * 16, 16, 16);
+      }
+      if (i != 0) {
+        gameMap[y][x] = Block.fromId(i);
+      }
+
+      x++;
+      if (x % 44 == 0) {
+        y++;
+        x = 0;
       }
     }
   }
+}

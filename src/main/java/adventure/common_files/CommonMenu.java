@@ -2,17 +2,10 @@ package adventure.common_files;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -48,30 +41,9 @@ public abstract class CommonMenu {
     }
 
     Parent root = loader.getRoot();
-    Image image = new Image(getClass().getResource("/adventure/ui/game_cursor.png").toString());
+    Image image = new Image(getClass().getResource("/adventure/ui/images/game_cursor.png").toString());
     Scene scene = new Scene(root,700, 400);
     scene.setCursor(new ImageCursor(image));
     stage.setScene(scene);
-  }
-
-  public void setBackgroundImage(AnchorPane anchorPane, String resourceLocation){
-    BackgroundImage myBI= new BackgroundImage(
-            new Image(resourceLocation),
-            BackgroundRepeat.REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT,
-            BackgroundSize.DEFAULT);
-
-    anchorPane.setBackground(new Background(myBI));
-  }
-
-  public void initKeyActions(Scene scene){
-    scene.setOnKeyPressed(keyAction ->{
-      System.out.println(keyAction.getCode());
-    });
-  }
-
-  public void getCurrentScene(Node node){
-    System.out.println(node.getScene());
   }
 }

@@ -14,12 +14,68 @@ public class GameMap {
   public List<Enemy> enemy = new ArrayList<Enemy>();
   public List<NPC> npc = new ArrayList<NPC>();
 
+  public int getMapId() {
+    return mapId.get();
+  }
+
+  public IntegerProperty mapIdProperty() {
+    return mapId;
+  }
+
+  public void setMapId(int mapId) {
+    this.mapId.set(mapId);
+  }
+
+  public String getMapName() {
+    return mapName.get();
+  }
+
+  public StringProperty mapNameProperty() {
+    return mapName;
+  }
+
+  public void setMapName(String mapName) {
+    this.mapName.set(mapName);
+  }
+
+  public String getMapPath() {
+    return mapPath.get();
+  }
+
+  public StringProperty mapPathProperty() {
+    return mapPath;
+  }
+
+  public void setMapPath(String mapPath) {
+    this.mapPath.set(mapPath);
+  }
+
+  public List<Enemy> getEnemy() {
+    return enemy;
+  }
+
+  public void setEnemy(List<Enemy> enemy) {
+    this.enemy = enemy;
+  }
+
+  public List<NPC> getNpc() {
+    return npc;
+  }
+
+  public void setNpc(List<NPC> npc) {
+    this.npc = npc;
+  }
+
   public void loadEnemyList(){
     // TODO: read enemy data from db
-    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png","Teszt szörny",1,10,0,1,0,10);
-    Enemy mob2 = new Enemy("/adventure/entities/enemy/goblin_0.png","Teszt szörny2",1,10,0,1,0,10);
+    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png","Teszt szörny",1,10,0,1,0,10,0,0);
+    Enemy mob2 = new Enemy("/adventure/entities/enemy/goblin_0.png","Teszt szörny2",1,10,0,1,0,10,0,0);
     enemy.add(mob);
-    enemy.add(mob2);
+    //enemy.add(mob2);
+  }
+
+  public void loadNPCList(){
+
   }
 
 }

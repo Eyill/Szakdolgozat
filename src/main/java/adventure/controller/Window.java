@@ -14,8 +14,8 @@ public class Window extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("/adventure/fxml_files/main_menu.fxml"));
-    primaryStage.setTitle("My Little Adventure");
-    Image image = new Image(getClass().getResource("/adventure/ui/game_cursor.png").toString());
+    primaryStage.setTitle("My First Adventure");
+    Image image = new Image(getClass().getResource("/adventure/ui/images/game_cursor.png").toString());
     Scene scene = new Scene(root,700, 400);
     scene.setCursor(new ImageCursor(image));
     primaryStage.setScene(scene);

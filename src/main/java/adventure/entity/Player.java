@@ -4,21 +4,18 @@ import adventure.common_files.Sprite;
 import adventure.misc.UserDataHandler;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
-
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
 public class Player extends Sprite {
-  public IntegerProperty playerId = new SimpleIntegerProperty(this,"id");
-  public StringProperty playerName = new SimpleStringProperty(this,"playerName");
-  public ObjectProperty<ObservableList<Item>> items[];    // change it to items type
-  public ObjectProperty<ObservableList<Quest>> quests[];   // Change it to quest type
-  private IntegerProperty experienceToLvLUp = new SimpleIntegerProperty(this,"experienceToLvLUp");
-  private IntegerProperty experience= new SimpleIntegerProperty(this,"experience");
+  public IntegerProperty playerId = new SimpleIntegerProperty(this, "id");
+  public StringProperty playerName = new SimpleStringProperty(this, "playerName");
+  public ObjectProperty<ObservableList<Quest>> quests[];
+  private IntegerProperty experienceToLvLUp = new SimpleIntegerProperty(this, "experienceToLvLUp");
+  private IntegerProperty experience = new SimpleIntegerProperty(this, "experience");
   private final int radius = 15;
+  public Backpack backpack;
 
   /**
-   *
    * @param String imagePath
    * @param int lvl
    * @param int health
@@ -39,13 +36,16 @@ public class Player extends Sprite {
           int criticalDamage,
           int requiredExperience,
           int currentExperience,
-          String name
-  ){
-    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage);
+          String name,
+          int x,
+          int y
+  ) {
+    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage,x,y);
     experienceToLvLUp.set(requiredExperience);
     experience.set(currentExperience);
     playerName.set(name);
     setImagePath(path);
+    backpack = new Backpack();
   }
 
   public int getExperienceToLvLUp() {
@@ -100,81 +100,80 @@ public class Player extends Sprite {
     this.playerId.set(playerId);
   }
 
-  public void attack(Enemy enemy){
-    if (enemy == null){
+  public void attack(Enemy enemy) {
+    if (enemy == null) {
       return;
     }
 
-    if(isColliding(this,enemy) ) {
+    if (isColliding(this, enemy)) {
       setIsAttacking(true);
       enemy.setCurrentHealth(enemy.getCurrentHealth() - getDamage());
     }
-    if(enemy.getCurrentHealth() <= 0){
+
+    if (enemy.getCurrentHealth() <= 0) {
       this.setIsAttacking(false);
       experience.set(experience.get() + enemy.death());
+      heal();
     }
   }
 
-  public void death(){
-    if (this.getCurrentHealth() <= 0){
+  public void talkWithNPC(NPC npc){
+    if (isColliding(this,npc)){
+      npc.showItems();
+    }
+  }
+
+  public void death() {
+    if (this.getCurrentHealth() <= 0) {
       super.spriteDeath();
     }
   }
 
-  public void heal(){
-    while(this.getCurrentHealth() < this.getTotalHealth() && !this.getIsAttacking()){
-      this.setCurrentHealth(this.getCurrentHealth() + 2);
+  public void heal() {
+    while (this.getCurrentHealth() < this.getTotalHealth() && !this.getIsAttacking()) {
+      this.setCurrentHealth(this.getCurrentHealth() + 1);
     }
   }
 
-  public void lvlUp(int newRequiredExperience) {
-    if (experience.get() >= experienceToLvLUp.get()){
+  public double lvlUpHandler() {
+    if (experience.get() >= experienceToLvLUp.get()) {
       this.setLvl(this.getLvl() + 1);
-      experienceToLvLUp.set(experienceToLvLUp.get() + newRequiredExperience);
+      experienceToLvLUp.set(experienceToLvLUp.get()*2);
+      experience.set(0);
+      return (double) experience.get();
     }
+    return (double) experience.get() / (double) experienceToLvLUp.get();
   }
 
   public void moveUp(int coefficient) {
-    if (getLayoutY() - coefficient >= 100) {
-      setLayoutY(getLayoutY() - coefficient);
-    }
+    setLayoutY(getLayoutY() - coefficient);
   }
 
   public void moveDown(int coefficient) {
-    if (getLayoutY() + coefficient < 300) {
-      setLayoutY(getLayoutY() + coefficient);
-    }
+    setLayoutY(getLayoutY() + coefficient);
   }
 
   public void moveLeft(int coefficient) {
-    if (getLayoutX() - coefficient >= 0) {
-      for (int i = 0; i <= 5; i++){
-        Image newImage = new Image(getClass().getResource("/adventure/entities/player/knight_run_anim_f" + i +".png").toString(),30,30,false, false);
-        this.setImage(newImage);
-        setLayoutX(getLayoutX() - coefficient);
-      }
-    }
+    setLayoutX(getLayoutX() - coefficient);
   }
 
   public void moveRight(int coefficient) {
-    if (getLayoutX() + coefficient < 650) {
-      setLayoutX(getLayoutX() + coefficient);
-    }
+    setLayoutX(getLayoutX() + coefficient);
   }
 
   public void handleKeys(KeyEvent event) {
-    switch (event.getCode()){
+    switch (event.getCode()) {
       case W:
-        this.moveUp(5);
+        this.moveUp(2);
         break;
       case S:
-        this.moveDown(5);
+        this.moveDown(2);
         break;
       case A:
-        this.moveLeft(5);
+        this.moveLeft(2);
         break;
       case D:
-        this.moveRight(5);
+        this.moveRight(2);
         break;
     }
   }

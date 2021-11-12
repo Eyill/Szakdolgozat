@@ -1,7 +1,5 @@
 package adventure.common_files;
 
-import java.io.*;
-import adventure.entity.Enemy;
 import adventure.entity.Player;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,20 +7,23 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 
 public class Sprite extends ImageView {
 
-  private IntegerProperty lvl = new SimpleIntegerProperty(this,"lvl");
-  private IntegerProperty totalHealth = new SimpleIntegerProperty(this,"totalHealth");;
-  private IntegerProperty currentHealth = new SimpleIntegerProperty(this,"currentHealth");
-  private IntegerProperty defense = new SimpleIntegerProperty(this,"defense");
-  private IntegerProperty damage = new SimpleIntegerProperty(this,"damage");
-  private IntegerProperty criticalDamage = new SimpleIntegerProperty(this,"criticalDamage");
-  private StringProperty imagePath = new SimpleStringProperty(this,"imagePath");
+  private IntegerProperty lvl = new SimpleIntegerProperty(this, "lvl");
+  private IntegerProperty totalHealth = new SimpleIntegerProperty(this, "totalHealth");
+  private IntegerProperty currentHealth = new SimpleIntegerProperty(this, "currentHealth");
+  private IntegerProperty defense = new SimpleIntegerProperty(this, "defense");
+  private IntegerProperty damage = new SimpleIntegerProperty(this, "damage");
+  private IntegerProperty criticalDamage = new SimpleIntegerProperty(this, "criticalDamage");
+  private StringProperty imagePath = new SimpleStringProperty(this, "imagePath");
+
+  private int position_x;
+  private int position_y;
 
   private boolean isAttacking = false;
   private boolean alive = true;
+  private final int radius = 22;
 
   public Sprite(
           String image,
@@ -31,15 +32,19 @@ public class Sprite extends ImageView {
           int current_health,
           int def,
           int dam,
-          int crit
+          int crit,
+          int x,
+          int y
   ) {
-    super(new Image(image,30,30,false, false));
+    super(new Image(image, 25, 25, false, false));
     lvl.set(level);
     totalHealth.set(maxHealth);
     currentHealth.set(current_health);
     defense.set(def);
     damage.set(dam);
     criticalDamage.set(crit);
+    position_x = x;
+    position_y = y;
   }
 
   public int getLvl() {
@@ -150,29 +155,31 @@ public class Sprite extends ImageView {
     this.isAttacking = attack;
   }
 
+  public int getRadius() {
+    return radius;
+  }
+
+  public int getPosition_x() {
+    return position_x;
+  }
+
+  public int getPosition_y() {
+    return position_y;
+  }
+
   public void spriteDeath() {
     this.alive = false;
     this.setImage(null);
   }
 
-  public void startAttacking(){
-    //sprite attack animation
-    this.setIsAttacking(true);
+  public boolean isColliding(Player player, Sprite sprite) {
+    int sumOfRadius = player.getRadius() + sprite.getRadius();
+    return sumOfRadius > getDistance(player, sprite);
   }
 
-  public void stopAttacking(String imagePath){
-    this.setImage(new Image(imagePath));
-    this.setIsAttacking(false);
-  }
-
-  public boolean isColliding(Player player, Enemy enemy){
-    int sumOfRadius = player.getRadius() + enemy.getRadius();
-    return sumOfRadius > getDistance(player,enemy);
-  }
-
-  public double getDistance(Player player, Enemy enemy){
-    double a = (player.getLayoutX() - enemy.getLayoutX());
-    double b = (player.getLayoutY() - enemy.getLayoutY());
+  public double getDistance(Player player, Sprite sprite) {
+    double a = (player.getLayoutX() - sprite.getLayoutX());
+    double b = (player.getLayoutY() - sprite.getLayoutY());
     return Math.sqrt(a * a + b * b);
   }
 

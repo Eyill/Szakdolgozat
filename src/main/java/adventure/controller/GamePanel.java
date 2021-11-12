@@ -17,6 +17,4 @@ public class GamePanel extends Application {
     stage.setScene(scene);
     stage.show();
   }
-
-  public void update() {}
 }
