@@ -18,13 +18,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RunningGame {
-
-  private Player player;
-  private List<Enemy> enemies;
-  private List<NPC> npcs;
 
   @FXML
   private AnchorPane gameWindow;
@@ -56,20 +52,7 @@ public class RunningGame {
   @FXML
   private Button infoButton;
 
-  @FXML
-  private Pane pauseMenu;
-
-  @FXML
-  private Button resumeButton;
-
-  @FXML
-  private Button saveButton;
-
-  @FXML
-  private Button loadButton;
-
-  @FXML
-  private Button exitButton;
+  private Player player;
 
   private BackpackModal backpackModal;
   private CharacterInfoModal characterInfoModal;
@@ -82,20 +65,15 @@ public class RunningGame {
     gameTile.toBack();
 
     player = UserDataHandler.player;
-    player.setLayoutX(player.getPosition_x());
-    player.setLayoutY(player.getPosition_y());
     gameWindow.getChildren().add(player);
 
     playerNameLabel.setText(player.getPlayerName());
-
-    pauseMenu.setVisible(false);
 
     backpackModal = new BackpackModal();
     characterInfoModal = new CharacterInfoModal();
     gamePauseModal = new GamePauseModal();
 
-    enemies = UserDataHandler.gameMap.enemy;
-    for (Enemy enemy : enemies) {
+    for (Enemy enemy : UserDataHandler.gameMap.enemy) {
       int y = 350;
       int x = 20;
       gameWindow.getChildren().add(enemy);
@@ -103,15 +81,17 @@ public class RunningGame {
       enemy.setLayoutX(x);
     }
 
-    infoButton.setOnAction(e -> {
-      labelGroup.setVisible(!labelGroup.isVisible());
-      infoButton.setLayoutX(!labelGroup.isVisible() ? 78 : 182);
-      infoButton.setText(!labelGroup.isVisible() ? "+" : "-");
-    });
+    for (NPC npc : UserDataHandler.gameMap.npc) {
+      gameWindow.getChildren().add(npc);
+    }
 
     new AnimationTimer() {
       @Override
       public void handle(long now) {
+        for (Enemy enemy : UserDataHandler.gameMap.enemy) {
+          enemy.movementHandler(player);
+        }
+
         healthBar.setProgress((double) player.getCurrentHealth() / (double) player.getTotalHealth());
         expBar.setProgress(player.lvlUpHandler());
 
@@ -122,10 +102,17 @@ public class RunningGame {
         expLabel.setText(player.getExperienceToLvLUp() + " / " + player.getExperience());
         lvlLabel.setText(String.valueOf(player.getLvl()));
 
-        UserDataHandler.checkEnemyLife();
+        UserDataHandler.checkEntityLife();
 
-        for (Enemy enemy : enemies) {
-          enemy.movementHandler(player);
+        if (!player.isAlive()) {
+          this.stop();
+          GameOverMenu gameOverMenu = new GameOverMenu();
+          try {
+            TimeUnit.SECONDS.sleep(1);
+            gameOverMenu.start((Stage) infoButton.getScene().getWindow());
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
     }.start();
@@ -133,13 +120,13 @@ public class RunningGame {
     gameWindow.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
       switch (event.getCode()) {
         case SPACE:
-          for (Enemy enemy : enemies) {
+          for (Enemy enemy : UserDataHandler.gameMap.enemy) {
             player.attack(enemy);
           }
           break;
 
         case E:
-          for (NPC npc : npcs) {
+          for (NPC npc : UserDataHandler.gameMap.npc) {
             player.talkWithNPC(npc);
           }
           break;
@@ -178,6 +165,11 @@ public class RunningGame {
       }
     });
 
+    infoButton.setOnAction(e -> {
+      labelGroup.setVisible(!labelGroup.isVisible());
+      infoButton.setLayoutX(!labelGroup.isVisible() ? 78 : 182);
+      infoButton.setText(!labelGroup.isVisible() ? "+" : "-");
+    });
   }
 
   @FXML
@@ -203,5 +195,4 @@ public class RunningGame {
       player.handleKeys(event);
     }
   }
-
 }

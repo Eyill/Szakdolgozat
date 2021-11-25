@@ -10,29 +10,24 @@ import java.util.Random;
 
 public class Enemy extends Sprite {
   private int id;
-  private String name;
-  private int experienceDrop;
+  private final String name;
+  private final int experienceDrop;
   private final int followRadius = 100;
   private final float speed = 0.01f;
   private int pathPointer = 0;
   private int gold = 0;
-  private final List<Vector> path = List.of(
-          new Vector(100, 100),
-          new Vector(600, 100),
-          new Vector(600, 300),
-          new Vector(100, 300));
 
   /**
-   * @param String imagePath
-   * @param String entityName
-   * @param int    positionX
-   * @param int    positionY
-   * @param int    lvl
-   * @param int    (current)health
-   * @param int    defense
-   * @param int    damage
-   * @param int    criticalDamage
-   * @param int    experienceDrop
+   * @param imagePath String path to enemy's image
+   * @param enemyName Name of enemy
+   * @param lvl Starting level
+   * @param health Total health of enemy
+   * @param defense Defense value
+   * @param damage Damage value
+   * @param criticalDamage Critical damage value
+   * @param experienceDrop Amount of exp which will be dropped
+   * @param x position x
+   * @param y position y
    */
 
   public Enemy(
@@ -47,7 +42,7 @@ public class Enemy extends Sprite {
           int x,
           int y
   ) {
-    super(UserDataHandler.class.getResource(imagePath).toString(), lvl, health, health, defense, damage, criticalDamage, x, y);
+    super(UserDataHandler.class.getResource(imagePath).toString(), lvl, health, health, defense, damage, criticalDamage, x, y,22);
     this.name = enemyName;
     this.experienceDrop = experienceDrop;
   }
@@ -58,6 +53,10 @@ public class Enemy extends Sprite {
 
   public int getGold() {
     return gold;
+  }
+
+  public String getName() {
+    return name;
   }
 
   public void attackPlayer(Player player) {
@@ -79,7 +78,7 @@ public class Enemy extends Sprite {
       if (distance < 20.0) {
         attackPlayer(player);
       }
-    } else if (!getIsAttacking()) {
+    } else if (!isAttacking()) {
       defaultMove();
     }
   }
@@ -121,17 +120,23 @@ public class Enemy extends Sprite {
         x *= speed;
         y *= speed;
 
-        setLayoutX(getLayoutX() + x);
-        setLayoutY(getLayoutY() + y);
+        int next_position_x = (int) Math.ceil((getLayoutX() + x) / 16);
+        int next_position_y = (int) Math.ceil((getLayoutY() + y) / 16);
+
+        if (!TileManager.gameMap[next_position_y][next_position_x].collidable) {
+          setLayoutX(getLayoutX() + x);
+          setLayoutY(getLayoutY() + y);
+        }
       }
     }
   }
 
   public int death() {
     if (this.getCurrentHealth() <= 0) {
-      this.setIsAttacking(false);
+      this.setAttacking(false);
+      this.setAlive(false);
       super.spriteDeath();
-      return this.experienceDrop;
+      return experienceDrop;
     }
     return 0;
   }

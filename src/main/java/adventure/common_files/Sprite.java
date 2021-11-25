@@ -10,20 +10,17 @@ import javafx.scene.image.ImageView;
 
 public class Sprite extends ImageView {
 
-  private IntegerProperty lvl = new SimpleIntegerProperty(this, "lvl");
-  private IntegerProperty totalHealth = new SimpleIntegerProperty(this, "totalHealth");
-  private IntegerProperty currentHealth = new SimpleIntegerProperty(this, "currentHealth");
-  private IntegerProperty defense = new SimpleIntegerProperty(this, "defense");
-  private IntegerProperty damage = new SimpleIntegerProperty(this, "damage");
-  private IntegerProperty criticalDamage = new SimpleIntegerProperty(this, "criticalDamage");
-  private StringProperty imagePath = new SimpleStringProperty(this, "imagePath");
+  private int lvl;
+  private int totalHealth;
+  private int currentHealth;
+  private int defense;
+  private int damage;
+  private int criticalDamage;
+  private String imagePath;
 
-  private int position_x;
-  private int position_y;
-
-  private boolean isAttacking = false;
-  private boolean alive = true;
-  private final int radius = 22;
+  private boolean isAttacking;
+  private boolean isAlive = true;
+  private final int radius;
 
   public Sprite(
           String image,
@@ -34,101 +31,75 @@ public class Sprite extends ImageView {
           int dam,
           int crit,
           int x,
-          int y
+          int y,
+          int radius
   ) {
     super(new Image(image, 25, 25, false, false));
-    lvl.set(level);
-    totalHealth.set(maxHealth);
-    currentHealth.set(current_health);
-    defense.set(def);
-    damage.set(dam);
-    criticalDamage.set(crit);
-    position_x = x;
-    position_y = y;
+    setLvl(level);
+    setTotalHealth(maxHealth);
+    setCurrentHealth(current_health);
+    setDefense(def);
+    setDamage(dam);
+    setCriticalDamage(crit);
+    setLayoutX(x);
+    setLayoutY(y);
+    this.radius = radius;
   }
 
   public int getLvl() {
-    return lvl.get();
-  }
-
-  public IntegerProperty lvlProperty() {
     return lvl;
   }
 
   public void setLvl(int lvl) {
-    this.lvl.set(lvl);
+    this.lvl = lvl;
   }
 
   public int getTotalHealth() {
-    return totalHealth.get();
-  }
-
-  public IntegerProperty totalHealthProperty() {
     return totalHealth;
   }
 
   public void setTotalHealth(int totalHealth) {
-    this.totalHealth.set(totalHealth);
+    this.totalHealth = totalHealth;
   }
 
   public int getCurrentHealth() {
-    return currentHealth.get();
-  }
-
-  public IntegerProperty currentHealthProperty() {
     return currentHealth;
   }
 
   public void setCurrentHealth(int currentHealth) {
-    this.currentHealth.set(currentHealth);
+    this.currentHealth = currentHealth;
   }
 
   public int getDefense() {
-    return defense.get();
-  }
-
-  public IntegerProperty defenseProperty() {
     return defense;
   }
 
   public void setDefense(int defense) {
-    this.defense.set(defense);
+    this.defense = defense;
   }
 
   public int getDamage() {
-    return damage.get();
-  }
-
-  public IntegerProperty damageProperty() {
     return damage;
   }
 
-  public String getImagePath() {
-    return imagePath.get();
-  }
-
-  public StringProperty imagePathProperty() {
-    return imagePath;
-  }
-
-  public void setImagePath(String imagePath) {
-    this.imagePath.set(imagePath);
-  }
-
   public void setDamage(int damage) {
-    this.damage.set(damage);
+    this.damage = damage;
   }
 
   public int getCriticalDamage() {
-    return criticalDamage.get();
-  }
-
-  public IntegerProperty criticalDamageProperty() {
     return criticalDamage;
   }
 
   public void setCriticalDamage(int criticalDamage) {
-    this.criticalDamage.set(criticalDamage);
+    this.criticalDamage = criticalDamage;
+  }
+
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
   }
 
   public boolean isAttacking() {
@@ -140,35 +111,19 @@ public class Sprite extends ImageView {
   }
 
   public boolean isAlive() {
-    return alive;
+    return isAlive;
   }
 
   public void setAlive(boolean alive) {
-    this.alive = alive;
-  }
-
-  public boolean getIsAttacking() {
-    return this.isAttacking;
-  }
-
-  public void setIsAttacking(boolean attack) {
-    this.isAttacking = attack;
+    isAlive = alive;
   }
 
   public int getRadius() {
     return radius;
   }
 
-  public int getPosition_x() {
-    return position_x;
-  }
-
-  public int getPosition_y() {
-    return position_y;
-  }
-
   public void spriteDeath() {
-    this.alive = false;
+    this.isAlive = false;
     this.setImage(null);
   }
 

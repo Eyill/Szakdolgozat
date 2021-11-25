@@ -1,6 +1,7 @@
 package adventure.dao;
 
 import adventure.common_files.configuration.Configuration;
+import adventure.entity.Backpack;
 import adventure.misc.UserDataHandler;
 
 import java.sql.*;
@@ -62,7 +63,7 @@ public class GamePlayDAO {
       if (rs != null) {
         UserDataHandler.gameplayId = id;
         UserDataHandler.player = (new PlayerDAO()).findById(rs.getInt("player_id"));
-        UserDataHandler.player.backpack.setId(rs.getInt("backpack_id"));
+        UserDataHandler.player.setBackpack(new Backpack(rs.getInt("backpack_id")));
         UserDataHandler.gameMap = gameMapDAO.findById(rs.getInt("current_map_id"));
       }
 
@@ -120,7 +121,7 @@ public class GamePlayDAO {
 
         gameSaves.add(rs.getInt("id") + " " +
                 PlayerDAO.getPlayerNameById(rs.getInt("player_id")) + " " + dateInfo)
-                ;
+        ;
       }
 
     } catch (SQLException throwables) {

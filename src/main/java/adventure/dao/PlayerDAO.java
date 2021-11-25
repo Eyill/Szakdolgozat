@@ -75,7 +75,6 @@ public class PlayerDAO {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);
          PreparedStatement stmt = c.prepareStatement(UPDATE_player)
     ) {
-
       stmt.setInt(1, player.getLvl());
       stmt.setInt(2, player.getTotalHealth());
       stmt.setInt(3, player.getCurrentHealth());
@@ -87,7 +86,6 @@ public class PlayerDAO {
       stmt.setString(9, player.getImagePath()); //TODO: Add gold
       stmt.setInt(11, (int) player.getLayoutX());
       stmt.setInt(12, (int) player.getLayoutY());
-
       stmt.setInt(13, player.getPlayerId());
 
       int res = stmt.executeUpdate();
@@ -113,8 +111,8 @@ public class PlayerDAO {
       stmt.setInt(9, player.getExperience());
       stmt.setString(10, player.getImagePath());
       stmt.setInt(11, 0);
-      stmt.setInt(12, player.getPosition_x());
-      stmt.setInt(13, player.getPosition_y());
+      stmt.setInt(12, (int) player.getLayoutX());
+      stmt.setInt(13, (int) player.getLayoutY());
 
       int res = stmt.executeUpdate();
       player.setPlayerId(stmt.getGeneratedKeys().getInt(1));

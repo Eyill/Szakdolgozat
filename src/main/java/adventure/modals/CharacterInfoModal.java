@@ -1,12 +1,8 @@
 package adventure.modals;
 
-import adventure.misc.UserDataHandler;
-import adventure.modals.controllers.CharacterInfoController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 

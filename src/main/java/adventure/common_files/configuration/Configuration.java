@@ -1,4 +1,5 @@
 package adventure.common_files.configuration;
+
 import java.io.IOException;
 import java.util.Properties;
 
@@ -18,7 +19,7 @@ public class Configuration {
     return properties;
   }
 
-  public static String getProperty(String value){
+  public static String getProperty(String value) {
     return properties.getProperty(value);
   }
 

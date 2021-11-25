@@ -11,14 +11,14 @@ public class GameMapDAO {
   private static String CONNECTION_URL;
   private static final String SELECT_gameplay = "SELECT * FROM MAP WHERE id = ?";
 
-  public GameMapDAO(){
+  public GameMapDAO() {
     CONNECTION_URL = Configuration.getProperty("db.url");
   }
 
   public GameMap findById(int id) {
-    try(Connection c = DriverManager.getConnection(CONNECTION_URL);
-        PreparedStatement stmt = c.prepareStatement(SELECT_gameplay);
-    ){
+    try (Connection c = DriverManager.getConnection(CONNECTION_URL);
+         PreparedStatement stmt = c.prepareStatement(SELECT_gameplay);
+    ) {
       stmt.setInt(1, id);
       ResultSet rs = stmt.executeQuery();
 
@@ -26,7 +26,7 @@ public class GameMapDAO {
         GameMap gameMap = new GameMap();
         gameMap.setMapId(id);
         gameMap.setMapPath(rs.getString("map_path"));
-
+        gameMap.setNpc((new NPCDAO()).getAllNPCByMapId(rs.getInt("npc_package_id")));
         return gameMap;
       }
 

@@ -1,5 +1,6 @@
 package adventure.controller;
 
+import adventure.entity.Backpack;
 import adventure.misc.TileManager;
 import adventure.misc.UserDataHandler;
 import javafx.application.Application;
@@ -22,13 +23,7 @@ public class TempPage extends Application {
   public void start(Stage primaryStage) throws Exception {
     Pane root = new Pane();
     root.setPrefSize(700, 400);
-
-    ProgressBar bar = new ProgressBar();
-
-    bar.setProgress(0.9);
-    bar.setProgress(0.5);
-    root.getChildren().add(bar);
-    Scene scene = new Scene(root,700, 400);
+    Scene scene = new Scene(root, 700, 400);
     primaryStage.setScene(scene);
     primaryStage.show();
   }

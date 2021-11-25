@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class GamePanel extends Application {
 
   @Override
-  public void start(Stage stage) throws Exception{
+  public void start(Stage stage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("/adventure/fxml_files/running_game.fxml"));
     Scene scene = new Scene(root, 700, 400);
     stage.setUserData(UserDataHandler.player);

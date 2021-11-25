@@ -7,47 +7,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameMap {
-  public IntegerProperty mapId = new SimpleIntegerProperty(this,"id");
-  public StringProperty mapName = new SimpleStringProperty(this,"mapName");
-  public StringProperty mapPath = new SimpleStringProperty(this,"mapPath");
+  private int mapId;
+  private String mapName;
+  private String mapPath;
 
   public List<Enemy> enemy = new ArrayList<Enemy>();
   public List<NPC> npc = new ArrayList<NPC>();
 
   public int getMapId() {
-    return mapId.get();
-  }
-
-  public IntegerProperty mapIdProperty() {
     return mapId;
   }
 
   public void setMapId(int mapId) {
-    this.mapId.set(mapId);
+    this.mapId = mapId;
   }
 
   public String getMapName() {
-    return mapName.get();
-  }
-
-  public StringProperty mapNameProperty() {
     return mapName;
   }
 
   public void setMapName(String mapName) {
-    this.mapName.set(mapName);
+    this.mapName = mapName;
   }
 
   public String getMapPath() {
-    return mapPath.get();
-  }
-
-  public StringProperty mapPathProperty() {
     return mapPath;
   }
 
   public void setMapPath(String mapPath) {
-    this.mapPath.set(mapPath);
+    this.mapPath = mapPath;
   }
 
   public List<Enemy> getEnemy() {
@@ -72,10 +60,6 @@ public class GameMap {
     Enemy mob2 = new Enemy("/adventure/entities/enemy/goblin_0.png","Teszt szörny2",1,10,0,1,0,10,0,0);
     enemy.add(mob);
     //enemy.add(mob2);
-  }
-
-  public void loadNPCList(){
-
   }
 
 }

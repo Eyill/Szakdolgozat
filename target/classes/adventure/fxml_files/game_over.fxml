@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="gameWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adventure.controller.GameOver">
+   <children>
+      <Button fx:id="loadGame" blendMode="ADD" cache="true" layoutX="268.0" layoutY="237.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Load game" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Brush Script MT Italic" size="33.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" layoutX="221.0" layoutY="120.0" prefHeight="51.0" prefWidth="257.0" text="Game over" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Brush Script MT Italic" size="73.0" />
+         </font>
+      </Label>
+      <Button fx:id="mainMenu" blendMode="ADD" cache="true" layoutX="268.0" layoutY="303.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Main menu" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Brush Script MT Italic" size="33.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

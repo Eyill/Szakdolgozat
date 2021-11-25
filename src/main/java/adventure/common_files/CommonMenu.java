@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public abstract class CommonMenu {
@@ -42,7 +43,7 @@ public abstract class CommonMenu {
 
     Parent root = loader.getRoot();
     Image image = new Image(getClass().getResource("/adventure/ui/images/game_cursor.png").toString());
-    Scene scene = new Scene(root,700, 400);
+    Scene scene = new Scene(root, 700, 400);
     scene.setCursor(new ImageCursor(image));
     stage.setScene(scene);
   }

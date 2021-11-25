@@ -18,7 +18,7 @@
       </font>
     </Button>
     <Label alignment="CENTER" layoutX="221.0" layoutY="26.0" prefHeight="51.0" prefWidth="257.0"
-           text="Select a gamesave" textAlignment="CENTER" textFill="WHITE">
+           text="Load saved game" textAlignment="CENTER" textFill="WHITE">
       <font>
         <Font name="Brush Script MT Italic" size="37.0"/>
       </font>

@@ -1,12 +1,9 @@
 package adventure.controller;
 
 import adventure.common_files.CommonMenu;
-import adventure.misc.UserDataHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class MainMenu extends CommonMenu {
 
@@ -33,8 +30,8 @@ public class MainMenu extends CommonMenu {
       changeWindow(newGameButton, "/adventure/fxml_files/create_new_game.fxml");
     });
 
-    loadGameButton.setOnAction(e->{
-      changeWindow(loadGameButton,"/adventure/fxml_files/load_game.fxml");
+    loadGameButton.setOnAction(e -> {
+      changeWindow(loadGameButton, "/adventure/fxml_files/load_game.fxml");
     });
 
     exitButton.setOnAction(event -> {

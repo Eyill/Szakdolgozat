@@ -7,24 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
 
 public class Player extends Sprite {
-  public IntegerProperty playerId = new SimpleIntegerProperty(this, "id");
-  public StringProperty playerName = new SimpleStringProperty(this, "playerName");
+  private int playerId;
+  private String playerName;
+  private int experienceToLvLUp;
+  private int experience;
+  private Backpack backpack;
   public ObjectProperty<ObservableList<Quest>> quests[];
-  private IntegerProperty experienceToLvLUp = new SimpleIntegerProperty(this, "experienceToLvLUp");
-  private IntegerProperty experience = new SimpleIntegerProperty(this, "experience");
-  private final int radius = 15;
-  public Backpack backpack;
-
-  /**
-   * @param String imagePath
-   * @param int lvl
-   * @param int health
-   * @param int currenthealth
-   * @param int defense
-   * @param int damage
-   * @param int criticalDamage
-   * @param int experienceToLvLUp
-   */
 
   public Player(
           String path,
@@ -40,64 +28,51 @@ public class Player extends Sprite {
           int x,
           int y
   ) {
-    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage,x,y);
-    experienceToLvLUp.set(requiredExperience);
-    experience.set(currentExperience);
-    playerName.set(name);
+    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage, x, y,15);
+    setExperienceToLvLUp(requiredExperience);
+    setExperience(currentExperience);
+    setPlayerName(name);
     setImagePath(path);
-    backpack = new Backpack();
-  }
-
-  public int getExperienceToLvLUp() {
-    return experienceToLvLUp.get();
-  }
-
-  public IntegerProperty experienceToLvLUpProperty() {
-    return experienceToLvLUp;
-  }
-
-  public void setExperienceToLvLUp(int experienceToLvLUp) {
-    this.experienceToLvLUp.set(experienceToLvLUp);
-  }
-
-  public int getExperience() {
-    return experience.get();
-  }
-
-  public IntegerProperty experienceProperty() {
-    return experience;
-  }
-
-  public void setExperience(int experience) {
-    this.experience.set(experience);
-  }
-
-  public int getRadius() {
-    return radius;
-  }
-
-  public String getPlayerName() {
-    return playerName.get();
-  }
-
-  public StringProperty playerNameProperty() {
-    return playerName;
-  }
-
-  public void setPlayerName(String playerName) {
-    this.playerName.set(playerName);
   }
 
   public int getPlayerId() {
-    return playerId.get();
-  }
-
-  public IntegerProperty playerIdProperty() {
     return playerId;
   }
 
   public void setPlayerId(int playerId) {
-    this.playerId.set(playerId);
+    this.playerId = playerId;
+  }
+
+  public String getPlayerName() {
+    return playerName;
+  }
+
+  public void setPlayerName(String playerName) {
+    this.playerName = playerName;
+  }
+
+  public int getExperienceToLvLUp() {
+    return experienceToLvLUp;
+  }
+
+  public void setExperienceToLvLUp(int experienceToLvLUp) {
+    this.experienceToLvLUp = experienceToLvLUp;
+  }
+
+  public int getExperience() {
+    return experience;
+  }
+
+  public void setExperience(int experience) {
+    this.experience = experience;
+  }
+
+  public Backpack getBackpack() {
+    return backpack;
+  }
+
+  public void setBackpack(Backpack backpack) {
+    this.backpack = backpack;
   }
 
   public void attack(Enemy enemy) {
@@ -106,19 +81,20 @@ public class Player extends Sprite {
     }
 
     if (isColliding(this, enemy)) {
-      setIsAttacking(true);
+      setAttacking(true);
       enemy.setCurrentHealth(enemy.getCurrentHealth() - getDamage());
     }
 
     if (enemy.getCurrentHealth() <= 0) {
-      this.setIsAttacking(false);
-      experience.set(experience.get() + enemy.death());
+      this.setAttacking(false);
+      setExperience(getExperience() + enemy.death());
       heal();
     }
   }
 
-  public void talkWithNPC(NPC npc){
-    if (isColliding(this,npc)){
+  public void talkWithNPC(NPC npc) {
+    if (isColliding(this, npc)) {
+      System.out.println("Talking with: " + npc.name);
       npc.showItems();
     }
   }
@@ -130,19 +106,19 @@ public class Player extends Sprite {
   }
 
   public void heal() {
-    while (this.getCurrentHealth() < this.getTotalHealth() && !this.getIsAttacking()) {
+    while (this.getCurrentHealth() < this.getTotalHealth() && !this.isAttacking()) {
       this.setCurrentHealth(this.getCurrentHealth() + 1);
     }
   }
 
   public double lvlUpHandler() {
-    if (experience.get() >= experienceToLvLUp.get()) {
+    if (getExperience() >= getExperienceToLvLUp()) {
       this.setLvl(this.getLvl() + 1);
-      experienceToLvLUp.set(experienceToLvLUp.get()*2);
-      experience.set(0);
-      return (double) experience.get();
+      setExperienceToLvLUp(getExperienceToLvLUp() * 2);
+      setExperience(0);
+      return (double) getExperience();
     }
-    return (double) experience.get() / (double) experienceToLvLUp.get();
+    return (double) getExperience() / (double) getExperienceToLvLUp();
   }
 
   public void moveUp(int coefficient) {

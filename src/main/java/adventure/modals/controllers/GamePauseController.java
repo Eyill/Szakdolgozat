@@ -1,12 +1,13 @@
 package adventure.modals.controllers;
 
+import adventure.common_files.CommonMenu;
 import adventure.misc.UserDataHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class GamePauseController {
+public class GamePauseController extends CommonMenu {
 
   @FXML
   private Pane pauseMenu;
@@ -24,7 +25,12 @@ public class GamePauseController {
   private Button exitButton;
 
   @FXML
-  public void initialize() {
+  void initialize() {
+    animateButtons(resumeButton);
+    animateButtons(saveButton);
+    animateButtons(loadButton);
+    animateButtons(exitButton);
+
     saveButton.setOnAction(e -> {
       System.out.println("Saving game!");
       UserDataHandler.saveGame(UserDataHandler.player, UserDataHandler.gameplayId, UserDataHandler.gameMap.getMapId());

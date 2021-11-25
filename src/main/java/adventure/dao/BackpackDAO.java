@@ -1,17 +1,20 @@
 package adventure.dao;
 
 import adventure.common_files.configuration.Configuration;
+import adventure.entity.Backpack;
 import adventure.entity.Item;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BackpackDAO {
   private static String CONNECTION_URL;
   private static final String CREATE_BACKPACK = "INSERT INTO BACKPACK_ID (id) VALUES (null)";
   private static final String SELECT_backpack = "SELECT * FROM BACKPACK WHERE backpack_id = ?";
-  private static final String DELETE_FROM_backpack = "DELETE FROM BACKPACK WHERE backpack_id = ?";
+  private static final String DELETE_FROM_backpack = "DELETE FROM BACKPACK WHERE backpack_id = ? AND item_id = ?";
 
   private static final String INSERT_INTO_backpack =
           "INSERT INTO BACKPACK " + "(id,backpack_id,item_id,amount)" + "VALUES (?,?,?,?)";
@@ -40,36 +43,45 @@ public class BackpackDAO {
     return -1;
   }
 
-  public void findById(int id) {
+  public Map<Item, Integer> findById(int id) {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);
          PreparedStatement stmt = c.prepareStatement(SELECT_backpack);
     ) {
+      Map<Item, Integer> backpack = new HashMap<>();
+      ItemDAO itemDAO = new ItemDAO();
+
       stmt.setInt(1, id);
       ResultSet rs = stmt.executeQuery();
-      List<Item> itemList = new ArrayList<>();
 
       if (rs != null) {
         while (rs.next()) {
-
+          backpack.put(itemDAO.findById(rs.getInt("item_id")), rs.getInt("amount"));
         }
       }
 
+      return backpack;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+
+    return null;
   }
 
 
-  public boolean save(int backpack_id, int item_id, int amount) {
+  public boolean save(Backpack backpack) {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);
          PreparedStatement stmt = c.prepareStatement(UPDATE_backpack)
     ) {
-      stmt.setInt(1, backpack_id);
-      stmt.setInt(2, item_id);
-      stmt.setInt(5, amount);
-
-      int res = stmt.executeUpdate();
-      return res == 1;
+      if (!backpack.getPack().isEmpty()) {
+        for (Map.Entry<Item, Integer> entry : backpack.getPack().entrySet()) {
+          stmt.setInt(1, backpack.getId());
+          stmt.setInt(2, entry.getKey().getItemId());
+          stmt.setInt(5, entry.getValue());
+          stmt.addBatch();
+        }
+        stmt.executeBatch();
+      }
+      return true;
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -88,17 +100,19 @@ public class BackpackDAO {
     }
   }
 
-  public boolean delete(int id) {
+  public boolean delete(int backpack_id, int item_id) {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);
          PreparedStatement stmt = c.prepareStatement(DELETE_FROM_backpack);
     ) {
-      stmt.setInt(1, id);
+      stmt.setInt(1, backpack_id);
+      stmt.setInt(2, item_id);
       int res = stmt.executeUpdate();
       return res == 1;
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
     return false;
   }
 }

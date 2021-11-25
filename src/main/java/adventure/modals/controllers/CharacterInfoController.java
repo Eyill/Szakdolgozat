@@ -24,7 +24,7 @@ public class CharacterInfoController {
   private Label playerCrit;
 
   @FXML
-  public void initialize(){
+  void initialize() {
     playerName.setText(UserDataHandler.player.getPlayerName());
     playerLvl.setText(String.valueOf(UserDataHandler.player.getLvl()));
     playerHp.setText(String.valueOf(UserDataHandler.player.getTotalHealth()));
