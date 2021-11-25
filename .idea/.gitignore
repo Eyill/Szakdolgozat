@@ -7,6 +7,7 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 .vscode
+.idea
 target
 /MyFirstAdventure.jar
 /run.bat
