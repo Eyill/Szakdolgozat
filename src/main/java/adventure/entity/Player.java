@@ -12,8 +12,7 @@ public class Player extends Sprite {
   private int experienceToLvLUp;
   private int experience;
   private Backpack backpack;
-  public ObjectProperty<ObservableList<Quest>> quests[];
-
+  
   public Player(
           String path,
           int lvl,

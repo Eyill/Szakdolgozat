@@ -124,6 +124,7 @@ public class Sprite extends ImageView {
 
   public void spriteDeath() {
     this.isAlive = false;
+    this.isAttacking = false;
     this.setImage(null);
   }
 

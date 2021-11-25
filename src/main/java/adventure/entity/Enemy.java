@@ -17,19 +17,6 @@ public class Enemy extends Sprite {
   private int pathPointer = 0;
   private int gold = 0;
 
-  /**
-   * @param imagePath String path to enemy's image
-   * @param enemyName Name of enemy
-   * @param lvl Starting level
-   * @param health Total health of enemy
-   * @param defense Defense value
-   * @param damage Damage value
-   * @param criticalDamage Critical damage value
-   * @param experienceDrop Amount of exp which will be dropped
-   * @param x position x
-   * @param y position y
-   */
-
   public Enemy(
           String imagePath,
           String enemyName,
@@ -133,8 +120,6 @@ public class Enemy extends Sprite {
 
   public int death() {
     if (this.getCurrentHealth() <= 0) {
-      this.setAttacking(false);
-      this.setAlive(false);
       super.spriteDeath();
       return experienceDrop;
     }
