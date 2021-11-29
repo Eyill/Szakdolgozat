@@ -8,8 +8,9 @@ public class Item extends ImageView {
   private final int itemId;
   private final String name;
   private final boolean consumable;
+  private int sellPrice;
 
-  public Item(int id, String name, String imagePath, boolean consumable) {
+  public Item(int id, String name, String imagePath, boolean consumable, int sellPrice) {
     super(new Image(UserDataHandler.class.getResource(imagePath).toString(),
             16,
             16,
@@ -20,6 +21,7 @@ public class Item extends ImageView {
     this.itemId = id;
     this.name = name;
     this.consumable = consumable;
+    this.sellPrice = sellPrice;
   }
 
   public int getItemId() {
@@ -34,4 +36,11 @@ public class Item extends ImageView {
     return consumable;
   }
 
+  public int getSellPrice() {
+    return sellPrice;
+  }
+
+  public void setSellPrice(int sell_price) {
+    this.sellPrice = sell_price;
+  }
 }

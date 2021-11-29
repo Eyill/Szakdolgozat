@@ -24,7 +24,8 @@ public class ItemDAO {
                 id,
                 rs.getString("name"),
                 rs.getString("image_path"),
-                rs.getInt("consumable") == 1
+                rs.getInt("consumable") == 1,
+                rs.getInt("default_price_per_unit")
         );
         return item;
       }

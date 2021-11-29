@@ -6,11 +6,14 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
 
+import java.util.Random;
+
 public class Player extends Sprite {
   private int playerId;
   private String playerName;
   private int experienceToLvLUp;
   private int experience;
+  private int gold;
   private Backpack backpack;
   
   public Player(
@@ -87,6 +90,9 @@ public class Player extends Sprite {
     if (enemy.getCurrentHealth() <= 0) {
       this.setAttacking(false);
       setExperience(getExperience() + enemy.death());
+      Random random = new Random();
+      random.nextDouble();
+      this.gold = enemy.getGold();
       heal();
     }
   }

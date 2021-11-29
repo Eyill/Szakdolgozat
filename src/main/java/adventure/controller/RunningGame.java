@@ -55,6 +55,7 @@ public class RunningGame {
   private Player player;
 
   private BackpackModal backpackModal;
+  private BackpackModal NPCbackpackModal;
   private CharacterInfoModal characterInfoModal;
   private GamePauseModal gamePauseModal;
 
@@ -104,6 +105,12 @@ public class RunningGame {
 
         UserDataHandler.checkEntityLife();
 
+        if(gamePauseModal.getPauseMenu().isVisible()){
+          if (((Button) gamePauseModal.getPauseMenu().lookup("#mainMenuButton")).isPressed()){
+            this.stop();
+          }
+        }
+
         if (!player.isAlive()) {
           this.stop();
           GameOverMenu gameOverMenu = new GameOverMenu();
@@ -132,12 +139,7 @@ public class RunningGame {
           break;
 
         case B:
-          boolean modalVisible = backpackModal.getBackpack().isVisible();
-          if (gameWindow.getChildren().contains(backpackModal.getBackpack())) {
-            backpackModal.getBackpack().setVisible(!modalVisible);
-          } else {
-            gameWindow.getChildren().add(backpackModal.getBackpack());
-          }
+          checkIfModalIsAdded();
           break;
 
         case F5:
@@ -193,6 +195,15 @@ public class RunningGame {
     }
     if (!TileManager.gameMap[y][x].collidable) {
       player.handleKeys(event);
+    }
+  }
+
+  private void checkIfModalIsAdded(){
+    boolean modalVisible = backpackModal.getBackpack().isVisible();
+    if (gameWindow.getChildren().contains(backpackModal.getBackpack())) {
+      backpackModal.getBackpack().setVisible(!modalVisible);
+    } else {
+      gameWindow.getChildren().add(backpackModal.getBackpack());
     }
   }
 }

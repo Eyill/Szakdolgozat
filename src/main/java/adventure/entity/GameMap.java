@@ -3,6 +3,7 @@ package adventure.entity;
 import adventure.entity.Enemy;
 import adventure.entity.NPC;
 import javafx.beans.property.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +55,10 @@ public class GameMap {
     this.npc = npc;
   }
 
-  public void loadEnemyList(){
+  public void loadEnemyList() {
     // TODO: read enemy data from db
-    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png","Teszt szörny",1,10,0,1,0,10,0,0);
-    Enemy mob2 = new Enemy("/adventure/entities/enemy/goblin_0.png","Teszt szörny2",1,10,0,1,0,10,0,0);
+    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png", "Teszt szörny", 1, 10, 0, 1, 0, 10, 0, 0, 20);
     enemy.add(mob);
-    //enemy.add(mob2);
   }
 
 }

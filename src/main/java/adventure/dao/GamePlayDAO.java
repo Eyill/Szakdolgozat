@@ -16,8 +16,8 @@ public class GamePlayDAO {
   private static String CONNECTION_URL;
   private static final String SELECT_gameplay = "SELECT * FROM GAMEPLAY WHERE id = ?";
   private static final String CREATE_gameplay = "INSERT INTO GAMEPLAY " +
-          "(player_id,backpack_id,quest_package_id,current_map_id,created)" +
-          "VALUES (?,?,?,?,?)";
+          "(player_id,backpack_id,current_map_id,created)" +
+          "VALUES (?,?,?,?)";
 
   private static final String UPDATE_gameplay =
           "UPDATE GAMEPLAY SET " +
@@ -37,11 +37,11 @@ public class GamePlayDAO {
     ) {
       stmt.setInt(1, playerId);
       stmt.setInt(2, backpackId);
-      stmt.setInt(4, currentMapId);
+      stmt.setInt(3, currentMapId);
 
       DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
       LocalDateTime now = LocalDateTime.now();
-      stmt.setString(5, dtf.format(now));
+      stmt.setString(4, dtf.format(now));
 
       stmt.executeUpdate();
 

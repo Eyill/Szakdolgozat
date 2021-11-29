@@ -26,6 +26,19 @@ public class BackpackDAO {
                   "amount = ?," +
                   "WHERE backpack_id = ? AND item_id = ?";
 
+  private static final String SELECT_NPC_inventory = "SELECT * FROM NPC_INVENTORY WHERE npc_inventory_id = ?";
+  private static final String INSERT_INTO_NPC_inventory = "INSERT INTO NPC_INVENTORY " +
+          "(npc_inventory_id,item_id,amount)" + "VALUES (?,?,?)";
+
+  private static final String UPDATE_NPC_inventory =
+          "UPDATE BACKPACK SET " +
+                  "npc_inventory_id = ?," +
+                  "item_id = ?," +
+                  "amount = ?," +
+                  "WHERE npc_inventory_id = ? AND item_id = ?";
+
+  private static final String DELETE_FROM_NPC_inventory = "DELETE FROM NPC_INVENTORY WHERE npc_inventory_id = ? AND item_id = ?";
+
   public BackpackDAO() {
     CONNECTION_URL = Configuration.getProperty("db.url");
   }
@@ -43,6 +56,7 @@ public class BackpackDAO {
     return -1;
   }
 
+  // Player's backpack
   public Map<Item, Integer> findById(int id) {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);
          PreparedStatement stmt = c.prepareStatement(SELECT_backpack);
@@ -55,6 +69,8 @@ public class BackpackDAO {
 
       if (rs != null) {
         while (rs.next()) {
+          Item item = itemDAO.findById(rs.getInt("item_id"));
+          item.setSellPrice((int) (item.getSellPrice() * 0.8));
           backpack.put(itemDAO.findById(rs.getInt("item_id")), rs.getInt("amount"));
         }
       }

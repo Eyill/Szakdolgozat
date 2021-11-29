@@ -5,34 +5,33 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pauseMenu" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="adventure.modals.controllers.GamePauseController">
+<Pane fx:id="pauseMenu" prefHeight="274.0" prefWidth="205.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adventure.modals.controllers.GamePauseController">
   <children>
-    <Rectangle fx:id="menu" arcHeight="5.0" arcWidth="5.0" fill="#79715a" height="217.0" opacity="0.86" stroke="BLACK"
-               strokeType="INSIDE" width="201.0"/>
-    <Button fx:id="resumeButton" layoutX="36.0" layoutY="16.0" mnemonicParsing="false"
-            style="-fx-background-color: transparent;" text="Resume game" textFill="WHITE">
+    <Rectangle fx:id="menu" arcHeight="5.0" arcWidth="5.0" fill="#79715a" height="276.0" opacity="0.86" stroke="BLACK" strokeType="INSIDE" width="205.0" />
+    <Button fx:id="resumeButton" layoutX="36.0" layoutY="21.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Resume game" textFill="WHITE">
       <font>
-        <Font name="Brush Script MT Italic" size="22.0"/>
+        <Font name="Brush Script MT Italic" size="22.0" />
       </font>
     </Button>
-    <Button fx:id="saveButton" layoutX="45.0" layoutY="63.0" mnemonicParsing="false"
-            style="-fx-background-color: transparent;" text="Save game" textFill="WHITE">
+    <Button fx:id="saveButton" layoutX="45.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Save game" textFill="WHITE">
       <font>
-        <Font name="Brush Script MT Italic" size="22.0"/>
+        <Font name="Brush Script MT Italic" size="22.0" />
       </font>
     </Button>
-    <Button fx:id="loadButton" layoutX="45.0" layoutY="110.0" mnemonicParsing="false"
-            style="-fx-background-color: transparent;" text="Load game" textFill="WHITE">
+    <Button fx:id="loadButton" layoutX="44.0" layoutY="115.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Load game" textFill="WHITE">
       <font>
-        <Font name="Brush Script MT Italic" size="22.0"/>
+        <Font name="Brush Script MT Italic" size="22.0" />
       </font>
     </Button>
-    <Button fx:id="exitButton" layoutX="71.0" layoutY="157.0" mnemonicParsing="false"
-            style="-fx-background-color: transparent;" text="Exit" textFill="WHITE">
+    <Button fx:id="exitButton" layoutX="72.0" layoutY="213.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Exit" textFill="WHITE">
       <font>
-        <Font name="Brush Script MT Italic" size="22.0"/>
+        <Font name="Brush Script MT Italic" size="22.0" />
       </font>
     </Button>
+      <Button fx:id="mainMenuButton" layoutX="47.0" layoutY="166.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Main menu" textFill="WHITE">
+         <font>
+            <Font name="Brush Script MT Italic" size="22.0" />
+         </font>
+      </Button>
   </children>
 </Pane>

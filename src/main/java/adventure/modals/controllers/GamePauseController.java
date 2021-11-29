@@ -22,6 +22,9 @@ public class GamePauseController extends CommonMenu {
   private Button loadButton;
 
   @FXML
+  private Button mainMenuButton;
+
+  @FXML
   private Button exitButton;
 
   @FXML
@@ -29,6 +32,7 @@ public class GamePauseController extends CommonMenu {
     animateButtons(resumeButton);
     animateButtons(saveButton);
     animateButtons(loadButton);
+    animateButtons(mainMenuButton);
     animateButtons(exitButton);
 
     saveButton.setOnAction(e -> {
@@ -41,6 +45,10 @@ public class GamePauseController extends CommonMenu {
 
     resumeButton.setOnAction(e -> {
       pauseMenu.setVisible(false);
+    });
+
+    mainMenuButton.setOnAction(e -> {
+      changeWindow(mainMenuButton,"/adventure/fxml_files/main_menu.fxml");
     });
 
     exitButton.setOnAction(e -> {

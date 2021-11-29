@@ -17,6 +17,10 @@ public class NPC extends Sprite {
   public void showItems() {
   }
 
+  public void loadBackpack(){
+
+  }
+
   public Backpack getBackpack(){
     return backpack;
   }
