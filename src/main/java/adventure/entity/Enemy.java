@@ -4,8 +4,10 @@ import adventure.common_files.Sprite;
 import adventure.misc.TileManager;
 import adventure.misc.UserDataHandler;
 import adventure.misc.Vector;
+import javafx.scene.control.ProgressBar;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Enemy extends Sprite {
   private int id;
@@ -15,6 +17,7 @@ public class Enemy extends Sprite {
   private final float speed = 0.01f;
   private final int gold;
   private List<Vector> lastLocation = new ArrayList<>();
+  private ProgressBar healthBar;
 
   public Enemy(
           String imagePath,
@@ -47,16 +50,30 @@ public class Enemy extends Sprite {
     return name;
   }
 
+  public ProgressBar getHealthBar() {
+    return healthBar;
+  }
+
+  public void setHealthBar(ProgressBar healthBar) {
+    this.healthBar = healthBar;
+  }
+
   public void attackPlayer(Player player) {
     if (isColliding(player, this) && player.getCurrentHealth() >= 0) {
-      player.setCurrentHealth(player.getCurrentHealth() - getDamage());
+      Random rand = new Random();
+      int damage = rand.nextInt(getDamage());
+      int trueDamage = damage - rand.nextInt(player.getDefense());
+      if (trueDamage < 0) trueDamage = 1;
+      player.setCurrentHealth(player.getCurrentHealth() - trueDamage);
     }
+    setAttacking(false);
   }
 
   public void movementHandler(Player player) {
     double distance = getDistance(player, this);
 
     if (followRadius > getDistance(player, this)) {
+      setAttacking(true);
       getNextPosition(player);
       if (distance < getRadius()) {
         attackPlayer(player);
@@ -166,5 +183,5 @@ public class Enemy extends Sprite {
     setLayoutX(nextPositionX);
     setLayoutY(nextPositionY);
   }
-}
 
+}

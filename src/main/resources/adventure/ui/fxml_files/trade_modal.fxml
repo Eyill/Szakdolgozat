@@ -41,7 +41,7 @@
             <Image url="@../images/backpack_2.png" />
           </image>
         </ImageView>
-        <GridPane fx:id="playerBackpack" alignment="CENTER" gridLinesVisible="true" layoutX="4.0" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="179.0" prefWidth="255.0">
+        <GridPane fx:id="playerBackpack" alignment="CENTER" gridLinesVisible="true" layoutX="4.0" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#mouseEntered" prefHeight="179.0" prefWidth="255.0">
           <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="44.00003662109375" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.00003662109374" minWidth="0.0" prefWidth="45.599963378906246" />

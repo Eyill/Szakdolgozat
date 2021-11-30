@@ -3,10 +3,7 @@ package adventure.entity;
 import adventure.common_files.Sprite;
 import adventure.misc.UserDataHandler;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-
-import java.io.IOException;
 import java.util.Random;
 
 public class Player extends Sprite {
@@ -19,7 +16,7 @@ public class Player extends Sprite {
   private boolean isRunning = false;
   private int animationFrame = 0;
   private String defaultImage = "/adventure/entities/player/player.gif";
-  private String right,left;
+  private String right, left;
   private String direction = defaultImage;
 
   public Player(
@@ -36,7 +33,7 @@ public class Player extends Sprite {
           int x,
           int y
   ) {
-    super(UserDataHandler.class.getResource(path).toString(), lvl, health, currentHealth, defense, damage, criticalDamage, x, y, 15);
+    super(UserDataHandler.class.getResource(path).toString(), lvl, health, currentHealth, defense, damage, criticalDamage, x, y, 5);
     setExperienceToLvLUp(requiredExperience);
     setExperience(currentExperience);
     setPlayerName(name);
@@ -91,7 +88,13 @@ public class Player extends Sprite {
 
     if (isColliding(this, enemy)) {
       setAttacking(true);
-      enemy.setCurrentHealth(enemy.getCurrentHealth() - getDamage());
+
+      Random rand = new Random();
+      int damage = rand.nextInt(getDamage());
+      int trueDamage = damage - rand.nextInt(enemy.getDefense());
+      if (trueDamage < 0) trueDamage = 0;
+
+      enemy.setCurrentHealth(enemy.getCurrentHealth() - trueDamage);
     }
 
     if (enemy.getCurrentHealth() <= 0) {
@@ -99,8 +102,7 @@ public class Player extends Sprite {
       setExperience(getExperience() + enemy.death());
       Random random = new Random();
       random.nextDouble();
-      this.gold = enemy.getGold();
-      heal();
+      this.gold += enemy.getGold();
     }
   }
 
@@ -182,7 +184,7 @@ public class Player extends Sprite {
         direction = "idle";
         break;
     }
-    if (animationFrame == 5 || previousDirection != direction){
+    if (animationFrame == 5 || previousDirection != direction) {
       animationFrame = 0;
     }
     animationFrame += 1;
@@ -193,16 +195,16 @@ public class Player extends Sprite {
     left = "/adventure/entities/player/left_";
   }
 
-  public void setPlayerImage(String directionFrame, int currentFrame){
-    this.setImage(new Image(UserDataHandler.class.getResource(directionFrame + currentFrame +".png").toString(),
+  public void setPlayerImage(String directionFrame, int currentFrame) {
+    this.setImage(new Image(UserDataHandler.class.getResource(directionFrame + currentFrame + ".png").toString(),
             25,
             25,
             false,
             false));
   }
 
-  public void setDefaultImage(){
-    this.setImage(new Image(UserDataHandler.class.getResource( defaultImage).toString(),
+  public void setDefaultImage() {
+    this.setImage(new Image(UserDataHandler.class.getResource(defaultImage).toString(),
             25,
             25,
             false,
@@ -225,25 +227,25 @@ public class Player extends Sprite {
     }
   }
 
-  public void checkCurrentFrame(String direction){
-    switch (animationFrame){
+  public void checkCurrentFrame(String direction) {
+    switch (animationFrame) {
       case 0:
-        setPlayerImage(direction,0);
+        setPlayerImage(direction, 0);
         break;
       case 1:
-        setPlayerImage(direction,1);
+        setPlayerImage(direction, 1);
         break;
       case 2:
-        setPlayerImage(direction,2);
+        setPlayerImage(direction, 2);
         break;
       case 3:
-        setPlayerImage(direction,3);
+        setPlayerImage(direction, 3);
         break;
       case 4:
-        setPlayerImage(direction,4);
+        setPlayerImage(direction, 4);
         break;
       case 5:
-        setPlayerImage(direction,5);
+        setPlayerImage(direction, 5);
         break;
       default:
         break;

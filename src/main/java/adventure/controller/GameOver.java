@@ -17,6 +17,9 @@ public class GameOver extends CommonMenu{
     animateButtons(loadGame);
     animateButtons(mainMenu);
 
+    loadGame.setFocusTraversable(false);
+    mainMenu.setFocusTraversable(false);
+
     loadGame.setOnAction(e -> {
       changeWindow(loadGame, "/adventure/fxml_files/load_game.fxml");
     });

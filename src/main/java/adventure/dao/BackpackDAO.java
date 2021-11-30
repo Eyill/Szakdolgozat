@@ -79,6 +79,30 @@ public class BackpackDAO {
     return new HashMap<>();
   }
 
+  public Map<Item, Integer> loadNPCBackpack(int id) {
+    try (Connection c = DriverManager.getConnection(CONNECTION_URL);
+         PreparedStatement stmt = c.prepareStatement(SELECT_NPC_inventory);
+    ) {
+      Map<Item, Integer> backpack = new HashMap<>();
+      ItemDAO itemDAO = new ItemDAO();
+
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
+
+      if (rs != null) {
+        while (rs.next()) {
+          Item item = itemDAO.findById(rs.getInt("item_id"));
+          item.setSellPrice((int) (item.getSellPrice() * 0.2));
+          backpack.put(itemDAO.findById(rs.getInt("item_id")), rs.getInt("amount"));
+        }
+      }
+      return backpack;
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return new HashMap<>();
+  }
+
 
   public boolean save(Backpack backpack) {
     try (Connection c = DriverManager.getConnection(CONNECTION_URL);

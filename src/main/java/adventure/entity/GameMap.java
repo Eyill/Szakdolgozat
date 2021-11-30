@@ -53,7 +53,7 @@ public class GameMap {
 
   public void loadEnemyList() {
     // TODO: read enemy data from db
-    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png", "Teszt szörny", 1, 10, 0, 1, 0, 10, 0, 0, 20);
+    Enemy mob = new Enemy("/adventure/entities/enemy/slime_0.png", "Teszt szörny", 1, 50, 3, 1, 0, 10, 0, 0, 20);
     enemy.add(mob);
   }
 

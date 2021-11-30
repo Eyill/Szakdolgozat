@@ -84,6 +84,7 @@ public class RunningGame {
       gameWindow.getChildren().add(enemy);
       enemy.setLayoutY(y);
       enemy.setLayoutX(x);
+      enemy.setHealthBar(new ProgressBar());
     }
 
     for (NPC npc : UserDataHandler.gameMap.npc) {
@@ -94,6 +95,7 @@ public class RunningGame {
       @Override
       public void handle(long now) {
         for (Enemy enemy : UserDataHandler.gameMap.enemy) {
+          enemyHealthbarHandler(enemy);
           enemy.movementHandler(player);
         }
 
@@ -200,5 +202,22 @@ public class RunningGame {
     } else {
       gameWindow.getChildren().add(modal.getContent());
     }
+  }
+
+  private void enemyHealthbarHandler(Enemy enemy){
+    if (enemy.isAttacking()) {
+      if (!gameWindow.getChildren().contains(enemy.getHealthBar())) {
+        gameWindow.getChildren().add(enemy.getHealthBar());
+      }
+      enemy.getHealthBar().setPrefWidth(47);
+      enemy.getHealthBar().setPrefHeight(10);
+      enemy.getHealthBar().setStyle("-fx-accent: red");
+      enemy.getHealthBar().setLayoutY(enemy.getLayoutY() - 10);
+      enemy.getHealthBar().setLayoutX(enemy.getLayoutX());
+    }
+    if(!enemy.isAlive()) {
+      gameWindow.getChildren().remove(enemy.getHealthBar());
+    }
+    enemy.getHealthBar().setProgress((double) enemy.getCurrentHealth() / (double) enemy.getTotalHealth());
   }
 }
