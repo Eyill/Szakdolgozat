@@ -27,6 +27,7 @@ public class ItemDAO {
                 rs.getInt("consumable") == 1,
                 rs.getInt("default_price_per_unit")
         );
+        rs.close();
         return item;
       }
 

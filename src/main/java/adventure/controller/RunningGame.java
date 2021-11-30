@@ -1,5 +1,6 @@
 package adventure.controller;
 
+import adventure.common_files.Modal;
 import adventure.entity.Enemy;
 import adventure.entity.NPC;
 import adventure.entity.Player;
@@ -8,6 +9,7 @@ import adventure.misc.UserDataHandler;
 import adventure.modals.BackpackModal;
 import adventure.modals.CharacterInfoModal;
 import adventure.modals.GamePauseModal;
+import adventure.modals.TradeModal;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -15,7 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.concurrent.TimeUnit;
@@ -55,7 +58,7 @@ public class RunningGame {
   private Player player;
 
   private BackpackModal backpackModal;
-  private BackpackModal NPCbackpackModal;
+  private TradeModal tradeModal;
   private CharacterInfoModal characterInfoModal;
   private GamePauseModal gamePauseModal;
 
@@ -73,6 +76,7 @@ public class RunningGame {
     backpackModal = new BackpackModal();
     characterInfoModal = new CharacterInfoModal();
     gamePauseModal = new GamePauseModal();
+    tradeModal = new TradeModal();
 
     for (Enemy enemy : UserDataHandler.gameMap.enemy) {
       int y = 350;
@@ -98,6 +102,7 @@ public class RunningGame {
 
         player.setLayoutX(player.getLayoutX());
         player.setLayoutY(player.getLayoutY());
+        player.run();
 
         hpLabel.setText(player.getTotalHealth() + " / " + player.getCurrentHealth());
         expLabel.setText(player.getExperienceToLvLUp() + " / " + player.getExperience());
@@ -105,8 +110,8 @@ public class RunningGame {
 
         UserDataHandler.checkEntityLife();
 
-        if(gamePauseModal.getPauseMenu().isVisible()){
-          if (((Button) gamePauseModal.getPauseMenu().lookup("#mainMenuButton")).isPressed()){
+        if (gamePauseModal.getContent().isVisible()) {
+          if (((Button) gamePauseModal.getContent().lookup("#mainMenuButton")).isPressed()) {
             this.stop();
           }
         }
@@ -131,38 +136,26 @@ public class RunningGame {
             player.attack(enemy);
           }
           break;
-
         case E:
           for (NPC npc : UserDataHandler.gameMap.npc) {
             player.talkWithNPC(npc);
+            checkIfModalIsAdded(tradeModal);
           }
           break;
-
         case B:
-          checkIfModalIsAdded();
+          checkIfModalIsAdded(backpackModal);
           break;
-
         case F5:
           System.out.println("Saving game!");
           UserDataHandler.saveGame(player, UserDataHandler.gameplayId, UserDataHandler.gameMap.getMapId());
           break;
-
         case ESCAPE:
-          boolean pause = gamePauseModal.getPauseMenu().isVisible();
-          if (gameWindow.getChildren().contains(gamePauseModal.getPauseMenu())) {
-            gamePauseModal.getPauseMenu().setVisible(!pause);
-          } else {
-            gameWindow.getChildren().add(gamePauseModal.getPauseMenu());
-          }
+          checkIfModalIsAdded(gamePauseModal);
           break;
-
         case I:
-          boolean characterInfo = characterInfoModal.getCharacterMenu().isVisible();
-          if (gameWindow.getChildren().contains(characterInfoModal.getCharacterMenu())) {
-            characterInfoModal.getCharacterMenu().setVisible(!characterInfo);
-          } else {
-            gameWindow.getChildren().add(characterInfoModal.getCharacterMenu());
-          }
+          checkIfModalIsAdded(characterInfoModal);
+          break;
+        default:
           break;
       }
     });
@@ -192,18 +185,20 @@ public class RunningGame {
       case D:
         x++;
         break;
+      default:
+        break;
     }
     if (!TileManager.gameMap[y][x].collidable) {
       player.handleKeys(event);
     }
   }
 
-  private void checkIfModalIsAdded(){
-    boolean modalVisible = backpackModal.getBackpack().isVisible();
-    if (gameWindow.getChildren().contains(backpackModal.getBackpack())) {
-      backpackModal.getBackpack().setVisible(!modalVisible);
+  private void checkIfModalIsAdded(Modal modal) {
+    boolean modalVisible = modal.getContent().isVisible();
+    if (gameWindow.getChildren().contains(modal.getContent())) {
+      modal.getContent().setVisible(!modalVisible);
     } else {
-      gameWindow.getChildren().add(backpackModal.getBackpack());
+      gameWindow.getChildren().add(modal.getContent());
     }
   }
 }

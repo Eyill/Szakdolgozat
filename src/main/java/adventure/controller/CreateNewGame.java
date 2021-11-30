@@ -2,14 +2,17 @@ package adventure.controller;
 
 import adventure.common_files.CommonMenu;
 import adventure.misc.UserDataHandler;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateNewGame extends CommonMenu {
 
@@ -29,6 +32,12 @@ public class CreateNewGame extends CommonMenu {
   void initialize() {
     animateButtons(returnButton);
     animateButtons(continueButton);
+
+    setBackgroundImage(gameWindow, "/adventure/ui/images/main_menu.png");
+    gameWindow.getChildren().add(CommonMenu.runningSprite);
+
+    List<Button> buttonList = Arrays.asList(returnButton,continueButton);
+    CommonMenu.startAnimation(buttonList);
 
     continueButton.setOnAction(e -> {
       if (playerName.getText().trim().isEmpty()) {

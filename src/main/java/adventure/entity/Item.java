@@ -40,7 +40,7 @@ public class Item extends ImageView {
     return sellPrice;
   }
 
-  public void setSellPrice(int sell_price) {
-    this.sellPrice = sell_price;
+  public void setSellPrice(int sellPrice) {
+    this.sellPrice = sellPrice;
   }
 }

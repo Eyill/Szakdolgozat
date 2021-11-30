@@ -6,17 +6,21 @@ import adventure.dao.GamePlayDAO;
 import adventure.dao.PlayerDAO;
 import adventure.entity.Backpack;
 import adventure.entity.GameMap;
+import adventure.entity.NPC;
 import adventure.entity.Player;
 
-public class UserDataHandler {
+public final class UserDataHandler {
   public static int gameplayId = 0;
   public static Player player;
+  public static NPC targetNPC;
   public static GameMap gameMap;
 
   public static PlayerDAO playerDAOImp = new PlayerDAO();
   public static GamePlayDAO gamePlayDAO = new GamePlayDAO();
   public static GameMapDAO gameMapDAO = new GameMapDAO();
   public static TileManager tileManager = new TileManager();
+
+  private UserDataHandler(){}
 
   public static void loadGame(int id) {
     gamePlayDAO.findById(id);

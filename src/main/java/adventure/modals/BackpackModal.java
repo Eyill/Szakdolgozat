@@ -1,11 +1,12 @@
 package adventure.modals;
 
+import adventure.common_files.Modal;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class BackpackModal {
+public class BackpackModal implements Modal {
   Pane backpackMenu;
 
   public BackpackModal() {
@@ -21,7 +22,7 @@ public class BackpackModal {
     }
   }
 
-  public Pane getBackpack() {
+  public Pane getContent() {
     return backpackMenu;
   }
 

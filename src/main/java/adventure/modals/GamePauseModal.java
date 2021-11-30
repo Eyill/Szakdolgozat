@@ -1,14 +1,15 @@
 package adventure.modals;
 
+import adventure.common_files.Modal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class GamePauseModal {
-  @FXML
-  private Pane pauseMenu;
+public class GamePauseModal implements Modal {
+
+  Pane pauseMenu;
 
   public GamePauseModal() {
     FXMLLoader loader = new FXMLLoader();
@@ -23,7 +24,7 @@ public class GamePauseModal {
     }
   }
 
-  public Pane getPauseMenu() {
+  public Pane getContent() {
     return pauseMenu;
   }
 }

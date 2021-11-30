@@ -14,12 +14,9 @@ public class NPC extends Sprite {
     this.name = name;
   }
 
-  public void showItems() {
-  }
+  public void showItems() {}
 
-  public void loadBackpack(){
-
-  }
+  public void loadBackpack(){}
 
   public Backpack getBackpack(){
     return backpack;

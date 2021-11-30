@@ -62,7 +62,7 @@ public class GamePlayDAO {
 
       if (rs != null) {
         UserDataHandler.gameplayId = id;
-        UserDataHandler.player = (new PlayerDAO()).findById(rs.getInt("player_id"));
+        UserDataHandler.player = new PlayerDAO().findById(rs.getInt("player_id"));
         UserDataHandler.player.setBackpack(new Backpack(rs.getInt("backpack_id")));
         UserDataHandler.gameMap = gameMapDAO.findById(rs.getInt("current_map_id"));
       }

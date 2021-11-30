@@ -5,9 +5,7 @@ import adventure.entity.Backpack;
 import adventure.entity.Item;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BackpackDAO {
@@ -74,13 +72,11 @@ public class BackpackDAO {
           backpack.put(itemDAO.findById(rs.getInt("item_id")), rs.getInt("amount"));
         }
       }
-
       return backpack;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
-
-    return null;
+    return new HashMap<>();
   }
 
 

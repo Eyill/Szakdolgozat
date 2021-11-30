@@ -1,15 +1,15 @@
 package adventure.modals;
 
+import adventure.common_files.Modal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class CharacterInfoModal {
+public class CharacterInfoModal implements Modal {
 
-  @FXML
-  private Pane characterMenu;
+  Pane characterMenu;
 
   public CharacterInfoModal() {
     FXMLLoader loader = new FXMLLoader();
@@ -22,7 +22,7 @@ public class CharacterInfoModal {
     }
   }
 
-  public Pane getCharacterMenu() {
+  public Pane getContent() {
     return characterMenu;
   }
 

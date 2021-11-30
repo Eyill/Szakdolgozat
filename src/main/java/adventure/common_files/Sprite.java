@@ -1,10 +1,6 @@
 package adventure.common_files;
 
 import adventure.entity.Player;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -26,7 +22,7 @@ public class Sprite extends ImageView {
           String image,
           int level,
           int maxHealth,
-          int current_health,
+          int currentHealth,
           int def,
           int dam,
           int crit,
@@ -37,7 +33,7 @@ public class Sprite extends ImageView {
     super(new Image(image, 25, 25, false, false));
     setLvl(level);
     setTotalHealth(maxHealth);
-    setCurrentHealth(current_health);
+    setCurrentHealth(currentHealth);
     setDefense(def);
     setDamage(dam);
     setCriticalDamage(crit);
@@ -134,9 +130,8 @@ public class Sprite extends ImageView {
   }
 
   public double getDistance(Player player, Sprite sprite) {
-    double a = (player.getLayoutX() - sprite.getLayoutX());
-    double b = (player.getLayoutY() - sprite.getLayoutY());
+    double a = player.getLayoutX() - sprite.getLayoutX();
+    double b = player.getLayoutY() - sprite.getLayoutY();
     return Math.sqrt(a * a + b * b);
   }
-
 }

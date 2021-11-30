@@ -2,10 +2,11 @@ package adventure.entity;
 
 import adventure.common_files.Sprite;
 import adventure.misc.UserDataHandler;
-import javafx.beans.property.*;
-import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class Player extends Sprite {
@@ -15,12 +16,17 @@ public class Player extends Sprite {
   private int experience;
   private int gold;
   private Backpack backpack;
-  
+  private boolean isRunning = false;
+  private int animationFrame = 0;
+  private String defaultImage = "/adventure/entities/player/player.gif";
+  private String right,left;
+  private String direction = defaultImage;
+
   public Player(
           String path,
           int lvl,
           int health,
-          int current_health,
+          int currentHealth,
           int defense,
           int damage,
           int criticalDamage,
@@ -30,11 +36,12 @@ public class Player extends Sprite {
           int x,
           int y
   ) {
-    super(UserDataHandler.class.getResource(path).toString(), lvl, health, current_health, defense, damage, criticalDamage, x, y,15);
+    super(UserDataHandler.class.getResource(path).toString(), lvl, health, currentHealth, defense, damage, criticalDamage, x, y, 15);
     setExperienceToLvLUp(requiredExperience);
     setExperience(currentExperience);
     setPlayerName(name);
     setImagePath(path);
+    setRunningImages();
   }
 
   public int getPlayerId() {
@@ -100,7 +107,7 @@ public class Player extends Sprite {
   public void talkWithNPC(NPC npc) {
     if (isColliding(this, npc)) {
       System.out.println("Talking with: " + npc.name);
-      npc.showItems();
+      UserDataHandler.targetNPC = npc;
     }
   }
 
@@ -142,7 +149,20 @@ public class Player extends Sprite {
     setLayoutX(getLayoutX() + coefficient);
   }
 
+  public int getGold() {
+    return gold;
+  }
+
+  public void setGold(int gold) {
+    this.gold = gold;
+  }
+
+  public boolean isRunning() {
+    return isRunning;
+  }
+
   public void handleKeys(KeyEvent event) {
+    String previousDirection = direction;
     switch (event.getCode()) {
       case W:
         this.moveUp(2);
@@ -151,10 +171,81 @@ public class Player extends Sprite {
         this.moveDown(2);
         break;
       case A:
+        direction = "left";
         this.moveLeft(2);
         break;
       case D:
+        direction = "right";
         this.moveRight(2);
+        break;
+      default:
+        direction = "idle";
+        break;
+    }
+    if (animationFrame == 5 || previousDirection != direction){
+      animationFrame = 0;
+    }
+    animationFrame += 1;
+  }
+
+  public void setRunningImages() {
+    right = "/adventure/entities/player/right_";
+    left = "/adventure/entities/player/left_";
+  }
+
+  public void setPlayerImage(String directionFrame, int currentFrame){
+    this.setImage(new Image(UserDataHandler.class.getResource(directionFrame + currentFrame +".png").toString(),
+            25,
+            25,
+            false,
+            false));
+  }
+
+  public void setDefaultImage(){
+    this.setImage(new Image(UserDataHandler.class.getResource( defaultImage).toString(),
+            25,
+            25,
+            false,
+            false));
+  }
+
+  public void run() {
+    switch (direction) {
+      case "right":
+        checkCurrentFrame(right);
+        break;
+      case "left":
+        checkCurrentFrame(left);
+        break;
+      case "idle":
+        setDefaultImage();
+        break;
+      default:
+        break;
+    }
+  }
+
+  public void checkCurrentFrame(String direction){
+    switch (animationFrame){
+      case 0:
+        setPlayerImage(direction,0);
+        break;
+      case 1:
+        setPlayerImage(direction,1);
+        break;
+      case 2:
+        setPlayerImage(direction,2);
+        break;
+      case 3:
+        setPlayerImage(direction,3);
+        break;
+      case 4:
+        setPlayerImage(direction,4);
+        break;
+      case 5:
+        setPlayerImage(direction,5);
+        break;
+      default:
         break;
     }
   }

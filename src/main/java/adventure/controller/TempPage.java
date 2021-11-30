@@ -1,22 +1,9 @@
 package adventure.controller;
 
-import adventure.entity.Backpack;
-import adventure.misc.TileManager;
-import adventure.misc.UserDataHandler;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.util.Arrays;
 
 public class TempPage extends Application {
   @Override

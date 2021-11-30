@@ -1,9 +1,5 @@
 package adventure.entity;
 
-import adventure.entity.Enemy;
-import adventure.entity.NPC;
-import javafx.beans.property.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

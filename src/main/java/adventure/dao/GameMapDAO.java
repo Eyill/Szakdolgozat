@@ -2,7 +2,6 @@ package adventure.dao;
 
 import adventure.common_files.configuration.Configuration;
 import adventure.entity.GameMap;
-import adventure.misc.UserDataHandler;
 
 import java.sql.*;
 
@@ -26,7 +25,7 @@ public class GameMapDAO {
         GameMap gameMap = new GameMap();
         gameMap.setMapId(id);
         gameMap.setMapPath(rs.getString("map_path"));
-        gameMap.setNpc((new NPCDAO()).getAllNPCByMapId(rs.getInt("npc_package_id")));
+        gameMap.setNpc(new NPCDAO().getAllNPCByMapId(rs.getInt("npc_package_id")));
         return gameMap;
       }
 

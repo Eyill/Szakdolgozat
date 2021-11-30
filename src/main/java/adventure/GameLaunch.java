@@ -1,6 +1,5 @@
 package adventure;
 
-import adventure.controller.TempPage;
 import adventure.controller.Window;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,8 +10,6 @@ public class GameLaunch extends Application {
   public void start(Stage primaryStage) throws Exception {
     Window gameWindow = new Window();
     gameWindow.start(primaryStage);
-//    TempPage tempPage = new TempPage();
-//    tempPage.start(primaryStage);
   }
 
   public static void main(String[] args) {

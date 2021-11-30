@@ -67,8 +67,8 @@ public class Enemy extends Sprite {
   }
 
   public void defaultMove() {
-    int x_position = (int) getLayoutX();
-    int y_position = (int) getLayoutY();
+    int xPosition = (int) getLayoutX();
+    int yPosition = (int) getLayoutY();
     List<String> givenList = List.of("left", "right", "up", "down");
 
     Random rand = new Random();
@@ -78,35 +78,37 @@ public class Enemy extends Sprite {
 
     switch (direction) {
       case "left":
-        x_position -= randomSteps;
+        xPosition -= randomSteps;
         break;
       case "right":
-        x_position += randomSteps;
+        xPosition += randomSteps;
         break;
       case "up":
-        y_position -= randomSteps;
+        yPosition -= randomSteps;
         break;
       case "down":
-        y_position += randomSteps;
+        yPosition += randomSteps;
+        break;
+      default:
         break;
     }
 
-    int new_x = (int) Math.ceil(((double) x_position) / 16);
-    int new_y = (int) Math.ceil(((double) y_position) / 16);
+    int newX = (int) Math.ceil(((double) xPosition) / 16);
+    int newY = (int) Math.ceil(((double) yPosition) / 16);
 
-    if (new_y < 25 && new_x < 43 && new_y >= 0 && new_x >= 0) {
-      if (!TileManager.gameMap[new_y][new_x].collidable) {
-        Vector target = new Vector(x_position, y_position);
+    if (newY < 25 && newX < 43 && newY >= 0 && newX >= 0) {
+      if (!TileManager.gameMap[newY][newX].collidable) {
+        Vector target = new Vector(xPosition, yPosition);
 
         double x = target.x - getLayoutX();
         double y = target.y - getLayoutY();
         x *= speed;
         y *= speed;
 
-        int next_position_x = (int) Math.ceil((getLayoutX() + x) / 16);
-        int next_position_y = (int) Math.ceil((getLayoutY() + y) / 16);
+        int nextPositionX = (int) Math.ceil((getLayoutX() + x) / 16);
+        int nextPositionY = (int) Math.ceil((getLayoutY() + y) / 16);
 
-        if (!TileManager.gameMap[next_position_y][next_position_x].collidable) {
+        if (!TileManager.gameMap[nextPositionY][nextPositionX].collidable) {
           setLayoutX(getLayoutX() + x);
           setLayoutY(getLayoutY() + y);
         }
@@ -125,21 +127,21 @@ public class Enemy extends Sprite {
   public void getNextPosition(Player player) {
     Vector currentPosition = new Vector((int) this.getLayoutX(), (int) this.getLayoutY());
 
-    List<Vector> csucsSzomszedai = new ArrayList<>();
-    csucsSzomszedai.add(new Vector(currentPosition.x + 1, currentPosition.y));
-    csucsSzomszedai.add(new Vector(currentPosition.x + 1, currentPosition.y + 1));
-    csucsSzomszedai.add(new Vector(currentPosition.x, currentPosition.y + 1));
-    csucsSzomszedai.add(new Vector(currentPosition.x - 1, currentPosition.y));
-    csucsSzomszedai.add(new Vector(currentPosition.x - 1, currentPosition.y - 1));
-    csucsSzomszedai.add(new Vector(currentPosition.x, currentPosition.y - 1));
-    csucsSzomszedai.add(new Vector(currentPosition.x - 1, currentPosition.y + 1));
-    csucsSzomszedai.add(new Vector(currentPosition.x + 1, currentPosition.y - 1));
+    List<Vector> availablePositions = new ArrayList<>();
+    availablePositions.add(new Vector(currentPosition.x + 1, currentPosition.y));
+    availablePositions.add(new Vector(currentPosition.x + 1, currentPosition.y + 1));
+    availablePositions.add(new Vector(currentPosition.x, currentPosition.y + 1));
+    availablePositions.add(new Vector(currentPosition.x - 1, currentPosition.y));
+    availablePositions.add(new Vector(currentPosition.x - 1, currentPosition.y - 1));
+    availablePositions.add(new Vector(currentPosition.x, currentPosition.y - 1));
+    availablePositions.add(new Vector(currentPosition.x - 1, currentPosition.y + 1));
+    availablePositions.add(new Vector(currentPosition.x + 1, currentPosition.y - 1));
 
-    csucsSzomszedai.removeIf(vector -> {
+    availablePositions.removeIf(vector -> {
       return TileManager.gameMap[vector.y / 16][vector.x / 16].collidable;
     });
 
-    csucsSzomszedai.sort((a, b) -> {
+    availablePositions.sort((a, b) -> {
       if (a.equals(b)) {
         return 0;
       }
@@ -152,17 +154,17 @@ public class Enemy extends Sprite {
 
     lastLocation.add(currentPosition);
 
-    csucsSzomszedai.removeIf((e) -> {
+    availablePositions.removeIf((e) -> {
       return lastLocation.equals(e);
     });
 
-    Vector nextPosition = csucsSzomszedai.remove(0);
+    Vector nextPosition = availablePositions.remove(0);
 
-    int next_position_x = nextPosition.x;
-    int next_position_y = nextPosition.y;
+    int nextPositionX = nextPosition.x;
+    int nextPositionY = nextPosition.y;
 
-    setLayoutX(next_position_x);
-    setLayoutY(next_position_y);
+    setLayoutX(nextPositionX);
+    setLayoutY(nextPositionY);
   }
 }
 

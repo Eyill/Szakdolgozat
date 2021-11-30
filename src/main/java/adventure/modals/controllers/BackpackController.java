@@ -4,7 +4,6 @@ import adventure.entity.Item;
 import adventure.misc.UserDataHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.Map;

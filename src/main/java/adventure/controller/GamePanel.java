@@ -1,6 +1,5 @@
 package adventure.controller;
 
-import adventure.misc.UserDataHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

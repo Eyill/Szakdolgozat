@@ -30,6 +30,7 @@ public class NPCDAO {
           npcs.add(findById(rs.getInt("npc_id")));
         }
       }
+
       return npcs;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
@@ -44,7 +45,7 @@ public class NPCDAO {
       stmt.setInt(1, id);
       ResultSet rs = stmt.executeQuery();
       if (rs != null) {
-        NPC npc = new NPC(
+        return new NPC(
                 id,
                 rs.getString("name"),
                 rs.getString("image_path"),
@@ -56,7 +57,7 @@ public class NPCDAO {
                 rs.getInt("position_x"),
                 rs.getInt("position_y")
         );
-        return npc;
+
       }
 
     } catch (SQLException throwables) {
